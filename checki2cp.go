@@ -54,7 +54,8 @@ func CheckI2PIsRunning() (bool, error) {
 	return true, nil
 }
 
-// CheckI2PIsInstalledDefaultLocation
+// CheckI2PIsInstalledDefaultLocation looks in various locations for the
+// presence of an I2P router.
 func CheckI2PIsInstalledDefaultLocation() (bool, error) {
 	if checkfileexists(I2PD_WINDOWS_DEFAULT_LOCATION) {
 		log.Println("Windows i2pd router detected")
