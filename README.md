@@ -10,6 +10,8 @@ to connect to the I2CP Port, generate a destination, and quit. If this is
 successful, an i2p router is obviously installed. The second is
 *CheckI2PIsInstalledDefaultLocation* which checks the default locations for
 the I2P router on various platforms to confirm whether an i2p router is present.
+Both of these functions return a bool and an error. If a router is present, they
+return true amd nil, if not, they return false and an error.
 
 It does not launch the router or anything else to do with managing the router.
 It is solely for checking whether a router is present.
