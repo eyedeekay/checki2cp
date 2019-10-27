@@ -119,11 +119,11 @@ func CheckI2PUserName() (string, error) {
 	}
 	if checkfileexists(HOME_DIRECTORY_LOCATION) {
 		log.Println("Linux i2p router detected")
-		return "", nil
+		return UserFind(), nil
 	}
 	if checkfileexists(OSX_DEFAULT_LOCATION) {
 		log.Println("OSX i2p router detected")
-		return "", nil
+		return UserFind(), nil
 	}
 	return "", nil
 }
