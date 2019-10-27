@@ -103,7 +103,7 @@ func UserFind() string {
 func CheckI2PUserName() (string, error) {
 	if checkfileexists(I2PD_WINDOWS_DEFAULT_LOCATION) {
 		log.Println("Windows i2pd router detected")
-		return "i2pd.exe", nil
+		return "i2pd", nil
 	}
 	if checkfileexists(I2PD_LINUX_SYSTEM_LOCATION) {
 		log.Println("Linux i2pd router detected")
@@ -111,7 +111,7 @@ func CheckI2PUserName() (string, error) {
 	}
 	if checkfileexists(WINDOWS_DEFAULT_LOCATION) {
 		log.Println("Windows i2p router detected")
-		return "i2psvc.exe", nil
+		return "i2psvc", nil
 	}
 	if checkfileexists(LINUX_SYSTEM_LOCATION) {
 		log.Println("Linux i2p router detected")

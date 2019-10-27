@@ -2,14 +2,11 @@
 
 GO111MODULE=on
 
-VERSION=0.0.01
+VERSION=0.0.02
 USER_GH=eyedeekay
 
 version:
 	gothub release -s $(GITHUB_TOKEN) -u $(USER_GH) -r checki2cp -t v$(VERSION) -d "I2P Router Checking CLI utility"
-
-fmt:
-	gofmt -w *.go canal/main.go
 
 GO_COMPILER_OPTS = -a -tags netgo -ldflags '-w -extldflags "-static"'
 
