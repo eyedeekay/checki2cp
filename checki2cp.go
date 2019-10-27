@@ -5,7 +5,7 @@ import (
 	"github.com/eyedeekay/go-i2cp"
 	"log"
 	"os"
-	"strings"
+	"os/user"
 )
 
 func inithome(str string) string {
@@ -90,9 +90,8 @@ func UserFind() string {
 		str := os.Getenv("SUDO_USER")
 		return str
 	}
-	if str, err := os.UserHomeDir(); err == nil {
-		x := strings.Split(str, "/")
-		return strings.Replace(x[len(x)-1], "/", "", -1)
+	if un, err := user.Current(); err == nil {
+		return un.Name
 	}
 	return ""
 }
