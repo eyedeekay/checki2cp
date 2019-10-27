@@ -1,4 +1,16 @@
 
+
+GO111MODULE=on
+
+VERSION=0.0.01
+USER_GH=eyedeekay
+
+version:
+	gothub release -s $(GITHUB_TOKEN) -u $(USER_GH) -r checki2cp -t v$(VERSION) -d "I2P Router Checking CLI utility"
+
+fmt:
+	gofmt -w *.go canal/main.go
+
 GO_COMPILER_OPTS = -a -tags netgo -ldflags '-w -extldflags "-static"'
 
 build: fmt test clean
@@ -7,6 +19,9 @@ build: fmt test clean
 
 test:
 	go test -v
+
+cli:
+	./i2cpcheck/i2cpcheck && echo "Error condition confirmed"
 
 clean:
 	rm -f i2pccheck/i2cpcheck

@@ -5,6 +5,7 @@ import (
 	"github.com/eyedeekay/go-i2cp"
 	"log"
 	"os"
+	"strings"
 )
 
 func inithome(str string) string {
@@ -27,7 +28,7 @@ func checkfileexists(path string) bool {
 var (
 	I2CP_HOST                     string = ""
 	I2CP_PORT                     string = ""
-	WINDOWS_DEFAULT_LOCATION      string = `C:\\Program Files\i2p\i2p.exe`
+	WINDOWS_DEFAULT_LOCATION      string = `C:\\Program Files\i2p\i2psvc.exe`
 	I2PD_WINDOWS_DEFAULT_LOCATION string = `C:\\Program Files\I2Pd\i2pd.exe`
 	LINUX_SYSTEM_LOCATION         string = "/usr/bin/i2prouter"
 	I2PD_LINUX_SYSTEM_LOCATION    string = "/usr/sbin/i2pd"
@@ -82,4 +83,47 @@ func CheckI2PIsInstalledDefaultLocation() (bool, error) {
 		return true, nil
 	}
 	return false, nil
+}
+
+func UserFind() string {
+	if os.Geteuid() == 0 {
+		str := os.Getenv("SUDO_USER")
+		return str
+	}
+	if str, err := os.UserHomeDir(); err == nil {
+		x := strings.Split(str, "/")
+		return strings.Replace(x[len(x)-1], "/", "", -1)
+	}
+	return ""
+}
+
+// CheckI2PUserName looks in various locations for the
+// presence of an I2P router and guesses the username it
+// should run under. On Windows it returns the EXE name.
+func CheckI2PUserName() (string, error) {
+	if checkfileexists(I2PD_WINDOWS_DEFAULT_LOCATION) {
+		log.Println("Windows i2pd router detected")
+		return "i2pd.exe", nil
+	}
+	if checkfileexists(I2PD_LINUX_SYSTEM_LOCATION) {
+		log.Println("Linux i2pd router detected")
+		return "i2pd", nil
+	}
+	if checkfileexists(WINDOWS_DEFAULT_LOCATION) {
+		log.Println("Windows i2p router detected")
+		return "i2psvc.exe", nil
+	}
+	if checkfileexists(LINUX_SYSTEM_LOCATION) {
+		log.Println("Linux i2p router detected")
+		return "i2psvc", nil
+	}
+	if checkfileexists(HOME_DIRECTORY_LOCATION) {
+		log.Println("Linux i2p router detected")
+		return "", nil
+	}
+	if checkfileexists(OSX_DEFAULT_LOCATION) {
+		log.Println("OSX i2p router detected")
+		return "", nil
+	}
+	return "", nil
 }
