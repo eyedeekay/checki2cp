@@ -17,6 +17,12 @@ func main() {
 	} else {
 		log.Println("I2P is not running, further testing is needed")
 	}
+	firewallport, err := checki2p.CheckFirewallPort()
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("I2P's firewall port is:", firewallport)
+
 	ok, err = checki2p.CheckI2PIsInstalledDefaultLocation()
 	if err != nil {
 		log.Fatal(err)
@@ -28,4 +34,5 @@ func main() {
 		log.Println("I2P is not a default location, user feedback is needed")
 		os.Exit(1)
 	}
+
 }

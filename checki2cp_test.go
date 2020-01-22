@@ -27,3 +27,11 @@ func TestRouter(t *testing.T) {
 		t.Log("I2P is in a default location, user feedback is needed")
 	}
 }
+
+func TestFirewallPort(t *testing.T) {
+	port, err := GetFirewallPort()
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log("Port was", port)
+}

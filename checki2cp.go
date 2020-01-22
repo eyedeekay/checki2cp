@@ -3,9 +3,12 @@ package checki2p
 import (
 	"fmt"
 	"github.com/eyedeekay/go-i2cp"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
+	"runtime"
+	"strings"
 )
 
 func inithome(str string) string {
@@ -25,6 +28,13 @@ func checkfileexists(path string) bool {
 	return false
 }
 
+func home() string {
+	if runtime.GOOS == "windows" {
+		return "\\i2p"
+	}
+	return "/.i2p"
+}
+
 var (
 	I2CP_HOST                     string = ""
 	I2CP_PORT                     string = ""
@@ -32,6 +42,7 @@ var (
 	I2PD_WINDOWS_DEFAULT_LOCATION string = `C:\\Program Files\I2Pd\i2pd.exe`
 	LINUX_SYSTEM_LOCATION         string = "/usr/bin/i2prouter"
 	I2PD_LINUX_SYSTEM_LOCATION    string = "/usr/sbin/i2pd"
+	I2P_ASUSER_HOME_LOCATION      string = inithome(home())
 	HOME_DIRECTORY_LOCATION       string = inithome("/i2p/i2prouter")
 	OSX_DEFAULT_LOCATION          string = inithome("/Library/Application Support/i2p/clients.config")
 )
@@ -125,4 +136,23 @@ func CheckI2PUserName() (string, error) {
 		return UserFind(), nil
 	}
 	return "", nil
+}
+
+// GetFirewallPort finds the configured UDP port of your I2P router to help
+// configure firewalls. It does this by finding the router.config and reading
+// it.
+func GetFirewallPort() (string, error) {
+	log.Println(I2P_ASUSER_HOME_LOCATION)
+	file, err := ioutil.ReadFile(I2P_ASUSER_HOME_LOCATION + "/router.config")
+	if err != nil {
+		return "", err
+	}
+	lines := strings.Split(string(file), "\n")
+	for index, line := range lines {
+		if strings.HasPrefix(line, "i2np.udp.port") {
+			log.Println(line, index)
+			return strings.Replace(line, "i2np.udp.port=", "", -1), nil
+		}
+	}
+	return "", fmt.Errorf("Improperly formed router.config file")
 }
