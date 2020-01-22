@@ -13,7 +13,6 @@ func main() {
 	}
 	if ok {
 		log.Println("I2P is running, successfully confirmed I2CP")
-		os.Exit(0)
 	} else {
 		log.Println("I2P is not running, further testing is needed")
 	}
