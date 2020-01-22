@@ -17,7 +17,7 @@ func main() {
 	} else {
 		log.Println("I2P is not running, further testing is needed")
 	}
-	firewallport, err := checki2p.CheckFirewallPort()
+	firewallport, err := checki2p.GetFirewallPort()
 	if err != nil {
 		log.Fatal(err)
 	}
