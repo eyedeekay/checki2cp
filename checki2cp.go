@@ -36,15 +36,15 @@ func home() string {
 }
 
 var (
-	I2CP_HOST                     string = ""
-	I2CP_PORT                     string = ""
-	WINDOWS_DEFAULT_LOCATION      string = `C:\\Program Files\i2p\i2psvc.exe`
-	I2PD_WINDOWS_DEFAULT_LOCATION string = `C:\\Program Files\I2Pd\i2pd.exe`
-	LINUX_SYSTEM_LOCATION         string = "/usr/bin/i2prouter"
-	I2PD_LINUX_SYSTEM_LOCATION    string = "/usr/sbin/i2pd"
-	I2P_ASUSER_HOME_LOCATION      string = inithome(home())
-	HOME_DIRECTORY_LOCATION       string = inithome("/i2p/i2prouter")
-	OSX_DEFAULT_LOCATION          string = inithome("/Library/Application Support/i2p/clients.config")
+	I2CP_HOST                     string   = ""
+	I2CP_PORT                     string   = ""
+	WINDOWS_DEFAULT_LOCATION      string   = `C:\\Program Files\i2p\i2psvc.exe`
+	I2PD_WINDOWS_DEFAULT_LOCATION string   = `C:\\Program Files\I2Pd\i2pd.exe`
+	LINUX_SYSTEM_LOCATION         []string = []string{"/usr/bin/i2prouter", "/usr/sbin/i2prouter"}
+	I2PD_LINUX_SYSTEM_LOCATION    string   = "/usr/sbin/i2pd"
+	I2P_ASUSER_HOME_LOCATION      string   = inithome(home())
+	HOME_DIRECTORY_LOCATION       string   = inithome("/i2p/i2prouter")
+	OSX_DEFAULT_LOCATION          string   = inithome("/Library/Application Support/i2p/clients.config")
 )
 
 // CheckIC2PIsRunning is frequently the only thing I need a reliable, non-SAM
@@ -81,7 +81,11 @@ func CheckI2PIsInstalledDefaultLocation() (bool, error) {
 		log.Println("Windows i2p router detected")
 		return true, nil
 	}
-	if checkfileexists(LINUX_SYSTEM_LOCATION) {
+	if checkfileexists(LINUX_SYSTEM_LOCATION[0]) {
+		log.Println("Linux i2p router detected")
+		return true, nil
+	}
+	if checkfileexists(LINUX_SYSTEM_LOCATION[1]) {
 		log.Println("Linux i2p router detected")
 		return true, nil
 	}
@@ -123,7 +127,11 @@ func CheckI2PUserName() (string, error) {
 		log.Println("Windows i2p router detected")
 		return "i2psvc", nil
 	}
-	if checkfileexists(LINUX_SYSTEM_LOCATION) {
+	if checkfileexists(LINUX_SYSTEM_LOCATION[0]) {
+		log.Println("Linux i2p router detected")
+		return "i2psvc", nil
+	}
+	if checkfileexists(LINUX_SYSTEM_LOCATION[1]) {
 		log.Println("Linux i2p router detected")
 		return "i2psvc", nil
 	}
@@ -155,4 +163,38 @@ func GetFirewallPort() (string, error) {
 		}
 	}
 	return "", fmt.Errorf("Improperly formed router.config file")
+}
+
+// FindI2PIsInstalledDefaultLocation looks in various locations for the
+// presence of an I2P router, reporting back the location
+func FindI2PIsInstalledDefaultLocation() (string, error) {
+	if checkfileexists(I2PD_WINDOWS_DEFAULT_LOCATION) {
+		log.Println("Windows i2pd router detected")
+		return I2PD_WINDOWS_DEFAULT_LOCATION, nil
+	}
+	if checkfileexists(I2PD_LINUX_SYSTEM_LOCATION) {
+		log.Println("Linux i2pd router detected")
+		return I2PD_LINUX_SYSTEM_LOCATION, nil
+	}
+	if checkfileexists(WINDOWS_DEFAULT_LOCATION) {
+		log.Println("Windows i2p router detected")
+		return WINDOWS_DEFAULT_LOCATION, nil
+	}
+	if checkfileexists(LINUX_SYSTEM_LOCATION[0]) {
+		log.Println("Linux i2p router detected")
+		return LINUX_SYSTEM_LOCATION[0], nil
+	}
+	if checkfileexists(LINUX_SYSTEM_LOCATION[1]) {
+		log.Println("Linux i2p router detected")
+		return LINUX_SYSTEM_LOCATION[1], nil
+	}
+	if checkfileexists(HOME_DIRECTORY_LOCATION) {
+		log.Println("Linux i2p router detected")
+		return HOME_DIRECTORY_LOCATION, nil
+	}
+	if checkfileexists(OSX_DEFAULT_LOCATION) {
+		log.Println("OSX i2p router detected")
+		return OSX_DEFAULT_LOCATION, nil
+	}
+	return "", fmt.Errorf("i2p router not found.")
 }
