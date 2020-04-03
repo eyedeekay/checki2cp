@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"os/user"
 	"runtime"
 	"strings"
@@ -197,4 +198,24 @@ func FindI2PIsInstalledDefaultLocation() (string, error) {
 		return OSX_DEFAULT_LOCATION, nil
 	}
 	return "", fmt.Errorf("i2p router not found.")
+}
+
+func ConditionallyLaunchI2P() (bool, error) {
+	ok, err := CheckI2PIsInstalledDefaultLocation()
+	if err != nil {
+		return false, err
+	}
+	if ok {
+		path, err := FindI2PIsInstalledDefaultLocation()
+		if err != nil {
+			return false, err
+		}
+		cmd := exec.Command(path, "start")
+		if err := cmd.Start(); err != nil {
+			return false, fmt.Errorf("I2P router startup failure")
+		}
+		return true, nil
+	} else {
+		return false, fmt.Errorf("I2P is not a default location, please set $I2P environment variable")
+	}
 }
