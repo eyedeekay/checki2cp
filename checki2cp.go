@@ -212,7 +212,7 @@ func ConditionallyLaunchI2P() (bool, error) {
 		}
 		cmd := exec.Command(path, "start")
 		if err := cmd.Start(); err != nil {
-			return false, fmt.Errorf("I2P router startup failure")
+			return false, fmt.Errorf("I2P router startup failure", err)
 		}
 		return true, nil
 	} else {
