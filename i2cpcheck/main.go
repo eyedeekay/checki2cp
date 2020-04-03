@@ -28,6 +28,11 @@ func main() {
 	}
 	if ok {
 		log.Println("I2P is installed, successfully confirmed")
+		path, err := checki2p.FindI2PIsInstalledDefaultLocation()
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Println("I2P is installed at:", path)
 		os.Exit(0)
 	} else {
 		log.Println("I2P is not a default location, user feedback is needed")
