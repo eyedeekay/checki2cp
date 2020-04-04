@@ -212,7 +212,7 @@ func ConditionallyLaunchI2P() (bool, error) {
 				if err != nil {
 					return false, err
 				}
-				if strings.EndsWith(path, "i2prouter") {
+				if strings.HasSuffix(path, "i2prouter") {
 					cmd := exec.Command(path, "start")
 					if err := cmd.Start(); err != nil {
 						return false, fmt.Errorf("I2P router startup failure", err)

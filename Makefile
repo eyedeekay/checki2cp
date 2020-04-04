@@ -2,7 +2,7 @@
 
 GO111MODULE=on
 
-VERSION=0.0.11
+VERSION=0.0.12
 USER_GH=eyedeekay
 
 version:
