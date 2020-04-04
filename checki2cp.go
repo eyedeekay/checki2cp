@@ -206,15 +206,19 @@ func ConditionallyLaunchI2P() (bool, error) {
 		return false, err
 	}
 	if ok {
-		path, err := FindI2PIsInstalledDefaultLocation()
-		if err != nil {
-			return false, err
+		if ok, err := CheckI2PIsRunning(); err == nil {
+			if !ok {
+				path, err := FindI2PIsInstalledDefaultLocation()
+				if err != nil {
+					return false, err
+				}
+				cmd := exec.Command(path, "start")
+				if err := cmd.Start(); err != nil {
+					return false, fmt.Errorf("I2P router startup failure", err)
+				}
+				return true, nil
+			}
 		}
-		cmd := exec.Command(path, "start")
-		if err := cmd.Start(); err != nil {
-			return false, fmt.Errorf("I2P router startup failure", err)
-		}
-		return true, nil
 	} else {
 		return false, fmt.Errorf("I2P is not a default location, please set $I2P environment variable")
 	}
