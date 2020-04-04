@@ -218,7 +218,10 @@ func ConditionallyLaunchI2P() (bool, error) {
 				}
 				return true, nil
 			}
-		}
+            return true, nil
+		}else{
+            return false, err
+        }
 	} else {
 		return false, fmt.Errorf("I2P is not a default location, please set $I2P environment variable")
 	}
