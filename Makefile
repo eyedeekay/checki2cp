@@ -39,6 +39,10 @@ zero-build: i2p-zero
 	cd zerobundle/i2p-zero && \
 		./bin/build-all-and-zip.sh
 
+zero-zip:
+	cd zerobundle && \
+		tar -czvf ./i2p-zero/dist.tar.gz
+
 zero-bundle: zero-build
 	cd zerobundle && \
 		go run --tags generate ./gen/gen.go
