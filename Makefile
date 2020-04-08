@@ -48,6 +48,7 @@ zero-bundle: zero-zip
 LAUNCH_VERSION=9.46.12
 
 zero-assets:
+	gothub release -p -u eyedeekay -r "checki2cp" -t $(LAUNCH_VERSION) -n "I2P Zero pre-encoded assets" -d "assets.go file containing a zipped bundle of I2P Zero"
 	gothub upload -R -u eyedeekay -r "checki2cp" -t $(LAUNCH_VERSION) -n "windows-assets.go" -f "zerobundle/windows/assets.go"
 	gothub upload -R -u eyedeekay -r "checki2cp" -t $(LAUNCH_VERSION) -n "mac-assets.go" -f "zerobundle/mac/assets.go"
 	gothub upload -R -u eyedeekay -r "checki2cp" -t $(LAUNCH_VERSION) -n "linux-assets.go" -f "zerobundle/linux/assets.go"
