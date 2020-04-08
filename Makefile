@@ -41,7 +41,7 @@ zero-build: i2p-zero
 
 zero-zip:
 	cd zerobundle && \
-		tar -czvf ./i2p-zero/dist.tar.gz
+		tar -czvf ./i2p-zero/dist.tar.gz ./i2p-zero/dist
 
 zero-bundle: zero-build
 	cd zerobundle && \
