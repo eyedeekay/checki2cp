@@ -43,6 +43,6 @@ zero-zip:
 	cd zerobundle && \
 		tar -czvf ./i2p-zero/dist.tar.gz ./i2p-zero/dist
 
-zero-bundle: zero-build
+zero-bundle: zero-zip
 	cd zerobundle && \
 		go run --tags generate ./gen/gen.go
