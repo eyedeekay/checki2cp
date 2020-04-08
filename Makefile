@@ -39,7 +39,7 @@ zero-build: i2p-zero
 	cd zerobundle/i2p-zero && \
 		./bin/build-all-and-zip.sh
 
-zero-zip: i2p-zero/dist.tar.gz
+zero-zip: 
 
 zero-bundle: zero-zip
 	cd zerobundle && \
