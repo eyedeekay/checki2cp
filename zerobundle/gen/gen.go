@@ -11,3 +11,4 @@ func main() {
     lorca.Embed("zero", "mac/assets.go", "i2p-zero/dist-zip/i2p-zero-mac.v1.16.zip")
     lorca.Embed("zero", "windows/assets.go", "i2p-zero/dist-zip/i2p-zero-windows.v1.16.zip")
 }
+
