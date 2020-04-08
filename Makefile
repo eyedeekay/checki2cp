@@ -41,10 +41,13 @@ zero-build: i2p-zero
 
 zero-zip: i2p-zero/dist.tar.gz
 
-i2p-zero/dist.tar.gz:
-	cd zerobundle && \
-		tar -czvf ./i2p-zero/dist.tar.gz ./i2p-zero/dist
-
 zero-bundle: zero-zip
 	cd zerobundle && \
 		go run --tags generate ./gen/gen.go
+
+LAUNCH_VERSION=9.46.12
+
+zero-assets:
+	gothub upload -R -u eyedeekay -r "checki2cp" -t $(LAUNCH_VERSION) -n "windows-assets.go" -f "zerobundle/windows/assets.go"
+	gothub upload -R -u eyedeekay -r "checki2cp" -t $(LAUNCH_VERSION) -n "mac-assets.go" -f "zerobundle/mac/assets.go"
+	gothub upload -R -u eyedeekay -r "checki2cp" -t $(LAUNCH_VERSION) -n "linux-assets.go" -f "zerobundle/linux/assets.go"
