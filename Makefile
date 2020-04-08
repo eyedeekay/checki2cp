@@ -28,3 +28,17 @@ clean:
 
 fmt:
 	find . -name '*.go' -exec gofmt -w -s {} \;
+
+i2p-zero:
+	cd zerobundle && git clone https://github.com/i2p-zero/i2p-zero.git; \
+		cd i2p-zero && \
+		git fetch --all --tags && \
+		git checkout $(ZERO_VERSION)
+
+zero-build: i2p-zero
+	cd zerobundle/i2p-zero && \
+		./bin/build-all-and-zip.sh
+
+zero-bundle: zero-build
+	cd zerobundle && \
+		go run --tags generate ./gen/gen.go
