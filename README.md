@@ -1,17 +1,37 @@
-# checki2cp
+checki2cp
+=========
 
 Library and terminal application which checks for the presence of a usable i2p
 router by attempting to connect to i2cp. Yet another tiny but essential function
 I don't want to be bothered with writing a billion times.
 
-It contains just two functions, for helping Go applications confirm the presence
-of an I2P router on the system. The first is *CheckI2PIsRunning*, which attempts
-to connect to the I2CP Port, generate a destination, and quit. If this is
-successful, an i2p router is obviously installed. The second is
-*CheckI2PIsInstalledDefaultLocation* which checks the default locations for
-the I2P router on various platforms to confirm whether an i2p router is present.
-Both of these functions return a bool and an error. If a router is present, they
-return true amd nil, if not, they return false and an error.
+Well like most things, it grew in complexity. Now it does about 5 or 6 things,
+it determines presence, running state, path, router "Style"(Java I2P, i2pd, 
+Zero) and it can start(but not stop) an I2P router. If you want to stop it,
+use i2pcontrol.
 
-It does not launch the router or anything else to do with managing the router.
-It is solely for checking whether a router is present.
+Here's where things get a little wierder.
+-----------------------------------------
+
+Have you ever wondered whether it's possible to compile a 200-ish Gigabyte .go
+file? Because before today, I hadn't. Turns out, it's looking... kinda possible.
+But it's a sonafagun to actually accomplish. Let me back up, today, I wanted to
+see if I could bundle I2P-Zero inside of a Go package wholesale. To do this, I
+went ahead and used lorca's embedding code to do so, because that's what I've
+been using for other things that this will be used in. Also it's easy to use.
+That means it takes the whole, compiled I2P-Zero package(zip file or whatever)
+encodes it as a string, and puts it in an object inside a Go file. Those, you
+can find on the releases page, under releases starting with z, followed by the
+corresponding Java I2P Major and Minor version, followed by the i2cpcheck
+version. So:
+
+        z9.46.12
+
+for example.
+
+Download all 3 of those to the zerobundle directory and compile them. You now
+have a virtual filesystem, containing the I2P Zero application as a zip file,
+which you can unpack to the disk at a desirable install location. Convenience
+functions to pack and unpack the data will be provided when I am done evaluating
+non-lorca options that might achieve smaller files, since I know I can achieve
+much smaller files with i2pd anyway.
