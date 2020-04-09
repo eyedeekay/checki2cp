@@ -135,6 +135,14 @@ CMAKE_MAKE_PROGRAM=make
 WORK_DIR=$(PWD)/i2pdbundle/
 
 # -DWITH_UPNP=ON -DMINIUPNPC_LIBRARY=$(WORK_DIR)miniupnpc \
+#export CC=x86_64-w64-mingw32-gcc
+#export CXX=x86_64-w64-mingw32-g++
+
+#i2pd-build-windows: i2p-i2pd
+#	cd i2pdbundle/i2pd && \
+#		CC=x86_64-w64-mingw32-gcc \
+#		CXX=x86_64-w64-mingw32-g++ \
+#		make
 
 i2pd-build-windows: hint-windows boost-windows openssl-windows zlib-windows miniupnp-source i2p-i2pd
 	cd i2pdbundle/i2pd && \
