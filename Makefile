@@ -134,7 +134,9 @@ i2pd-build: i2p-i2pd
 CMAKE_MAKE_PROGRAM=make
 WORK_DIR=$(PWD)/i2pdbundle/
 
-i2pd-build-windows:
+# -DWITH_UPNP=ON -DMINIUPNPC_LIBRARY=$(WORK_DIR)miniupnpc \
+
+i2pd-build-windows: hint-windows boost-windows openssl-windows zlib-windows miniupnp-source i2pd-i2pd
 	cd i2pdbundle/i2pd && \
 		rm -rf i2pd-mingw-64-build && \
 		mkdir -p i2pd-mingw-64-build && \
@@ -142,10 +144,9 @@ i2pd-build-windows:
 			BOOST_ROOT=$(WORK_DIR)boost cmake -G 'Unix Makefiles' $(WORK_DIR)i2pd/build \
 				-DBUILD_TYPE=Release \
 				-DCMAKE_TOOLCHAIN_FILE=$(WORK_DIR)toolchain-mingw.cmake \
-				-DWITH_AESNI=ON -DWITH_UPNP=ON -DWITH_STATIC=ON -DWITH_HARDENING=ON \
+				-DWITH_AESNI=ON -DWITH_STATIC=ON -DWITH_HARDENING=ON \
 				-DCMAKE_INSTALL_PREFIX:PATH=$(WORK_DIR)/i2pd/i2pd-mingw-64-static \
 				-DZLIB_ROOT=$(WORK_DIR)stage \
-				-DMINIUPNPC_LIBRARY=$(WORK_DIR)miniupnpc \
 				-DBOOST_LIBRARYDIR:PATH=$(WORK_DIR)boost/stage-mingw-64/lib \
 				-DOPENSSL_ROOT_DIR:PATH=$(WORK_DIR)stage && \
 	make && \

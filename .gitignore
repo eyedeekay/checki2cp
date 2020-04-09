@@ -2,3 +2,8 @@ zerobundle/i2p-zero
 zerobundle/mac/assets.go
 zerobundle/windows/assets.go
 zerobundle/linux/assets.go
+i2pdbundle/i2pd
+i2pdbundle/zlib
+i2pdbundle/openssl
+i2pdbundle/boost
+i2pdbundle/miniupnpc
