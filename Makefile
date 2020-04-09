@@ -39,6 +39,24 @@ zero-build: i2p-zero
 	cd zerobundle/i2p-zero && \
 		./bin/build-all-and-zip.sh
 
-zero-bundle: zero-build
+zero-zip: 
+
+zero-bundle: zero-zip
 	cd zerobundle && \
 		go run --tags generate ./gen/gen.go
+
+ZERO_VERSION=z9.46.12
+
+zero-assets:
+	gothub release -p -u eyedeekay -r "checki2cp" -t $(ZERO_VERSION) -n "I2P Zero pre-encoded assets" -d "assets.go file containing a zipped bundle of I2P Zero"
+	gothub upload -R -u eyedeekay -r "checki2cp" -t $(ZERO_VERSION) -n "assets_windows.go" -f "zerobundle/windows/assets.go"
+	gothub upload -R -u eyedeekay -r "checki2cp" -t $(ZERO_VERSION) -n "assets_darwin.go" -f "zerobundle/mac/assets.go"
+	gothub upload -R -u eyedeekay -r "checki2cp" -t $(ZERO_VERSION) -n "assets_linux.go" -f "zerobundle/linux/assets.go"
+	
+I2PD_VERSION=d9.46.12
+
+i2pd-assets:
+	#gothub release -p -u eyedeekay -r "checki2cp" -t $(I2PD_VERSION) -n "i2pd C++ pre-encoded assets" -d "assets.go file containing a zipped bundle of I2P Zero"
+	#gothub upload -R -u eyedeekay -r "checki2cp" -t $(I2PD_VERSION) -n "assets_windows.go" -f "i2pdbundle/windows/assets.go"
+	#gothub upload -R -u eyedeekay -r "checki2cp" -t $(I2PD_VERSION) -n "assets_darwin.go" -f "i2pdbundle/mac/assets.go"
+	#gothub upload -R -u eyedeekay -r "checki2cp" -t $(I2PD_VERSION) -n "assets_linux.go" -f "i2pdbundle/linux/assets.go"	
