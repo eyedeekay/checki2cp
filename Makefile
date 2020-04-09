@@ -136,7 +136,7 @@ WORK_DIR=$(PWD)/i2pdbundle/
 
 # -DWITH_UPNP=ON -DMINIUPNPC_LIBRARY=$(WORK_DIR)miniupnpc \
 
-i2pd-build-windows: hint-windows boost-windows openssl-windows zlib-windows miniupnp-source i2pd-i2pd
+i2pd-build-windows: hint-windows boost-windows openssl-windows zlib-windows miniupnp-source i2p-i2pd
 	cd i2pdbundle/i2pd && \
 		rm -rf i2pd-mingw-64-build && \
 		mkdir -p i2pd-mingw-64-build && \
