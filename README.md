@@ -13,7 +13,7 @@ use i2pcontrol.
 Here's where things get a little wierder.
 -----------------------------------------
 
-Have you ever wondered whether it's possible to compile a 200-ish Gigabyte .go
+Have you ever wondered whether it's possible to compile a 200-ish Megabyte .go
 file? Because before today, I hadn't. Turns out, it's looking... kinda possible.
 But it's a sonafagun to actually accomplish. Let me back up, today, I wanted to
 see if I could bundle I2P-Zero inside of a Go package wholesale. To do this, I
