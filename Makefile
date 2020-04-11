@@ -73,7 +73,7 @@ i2pdbundle/boost:
 			./bootstrap.sh && \
 			./b2 toolset=gcc --prefix=$(PWD)/i2pdbundle/stage target-os=linux variant=release link=static runtime-link=static address-model=64 \
 			--build-type=minimal --with-system --with-filesystem --with-program_options --with-date_time \
-			--stagedir=stage-64
+			--stagedir=$(PWD)/i2pdbundle/stage
 
 #i2pdbundle/boost:
 #	cd i2pdbundle && \
@@ -143,7 +143,7 @@ i2pd-build: i2p-i2pd
 		make LIBDIR="$(WORK_DIR)boost/stage-64/lib $(WORK_DIR)stage/lib" \
 			USE_STATIC=yes \
 			LIB_ROOT=$(WORK_DIR)stage \
-			BOOST_LIBRARYDIR=$(WORK_DIR)boost/stage-64/lib \
+			BOOST_LIBRARYDIR=$(WORK_DIR)stage \
 			OPENSSL_ROOT_DIR=$(WORK_DIR)stage \
 			INCFLAGS="-I$(WORK_DIR)stage/include"
 
@@ -185,6 +185,7 @@ i2pd-build-windows: i2p-i2pd
 	x86_64-w64-mingw32-strip i2pd.exe
 
 i2pd-zip:
+	mkdir -p i2pdbundle/bundle
 	wget -c -O i2pdbundle/bundle/osx.zip https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_osx.tar.gz
 	cd i2pdbundle/bundle/ && tar xvf osx.zip
 	wget -c -O i2pdbundle/bundle/win.zip https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_win64_mingw_avx_aesni.zip
