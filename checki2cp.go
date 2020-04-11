@@ -101,6 +101,8 @@ func CheckI2PIsInstalledDefaultLocation() (bool, error) {
 	return false, nil
 }
 
+// UserFind makes sure that we never mis-identify the user account because of
+// sudo
 func UserFind() string {
 	if os.Geteuid() == 0 {
 		str := os.Getenv("SUDO_USER")
@@ -200,6 +202,9 @@ func FindI2PIsInstalledDefaultLocation() (string, error) {
 	return "", fmt.Errorf("i2p router not found.")
 }
 
+// ConditionallyLaunchI2P If an already-installed I2P router is present, then
+// make sure that it is started, i.e. launch the router *only* if it is not
+// already running.
 func ConditionallyLaunchI2P() (bool, error) {
 	ok, err := CheckI2PIsInstalledDefaultLocation()
 	if err != nil {
@@ -215,12 +220,12 @@ func ConditionallyLaunchI2P() (bool, error) {
 				if strings.HasSuffix(path, "i2prouter") {
 					cmd := exec.Command(path, "start")
 					if err := cmd.Start(); err != nil {
-						return false, fmt.Errorf("I2P router startup failure", err)
+						return false, fmt.Errorf("I2P router startup failure %s", err)
 					}
 				} else {
 					cmd := exec.Command(path, "--daemon")
 					if err := cmd.Start(); err != nil {
-						return false, fmt.Errorf("I2P router startup failure", err)
+						return false, fmt.Errorf("I2P router startup failure %s", err)
 					}
 				}
 				return true, nil

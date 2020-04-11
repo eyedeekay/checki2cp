@@ -10,6 +10,26 @@ it determines presence, running state, path, router "Style"(Java I2P, i2pd,
 Zero) and it can start(but not stop) an I2P router. If you want to stop it,
 use i2pcontrol.
 
+
+
+
+I2PD Embedding Tools:
+---------------------
+
+
+
+### Roadmap
+
+ 1. Do a 100% static build of our own, less getHostByName peculiarities.
+ 2. Set up router with SWIG instead of with static embedded executable.
+ 3. Minimize number of components we build(nothing but I2PControl, SAM, and
+  I2CP).
+ 4. Provide easy router/client setup functions to import i2p routers into
+  applications with minimal boilerplate.
+ 3. Pure-Go I2PControl implementation.
+ 4. Pure-Go SAM implementation.
+ 5. Pure-Go I2CP implementation.
+
 Here's where things get a little wierder.
 -----------------------------------------
 
@@ -35,3 +55,7 @@ which you can unpack to the disk at a desirable install location. Convenience
 functions to pack and unpack the data will be provided when I am done evaluating
 non-lorca options that might achieve smaller files, since I know I can achieve
 much smaller files with i2pd anyway.
+
+**TL:DR Don't use this part unless you want to give yourself a headache.** It's 
+not imported by anything else, use the i2pd version instead and if Zero becomes 
+a realistic possibility in the future I'll change this section to reflect that.

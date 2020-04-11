@@ -58,11 +58,11 @@ zero-assets:
 I2PD_VERSION=2.30.0
 
 i2pd-config:
-	echo "using gcc : mingw : x86_64-w64-mingw32-g++ ;" > ~/user-config.jam
+	echo "using gcc : x86_64 : g++ ;" > ~/user-config.jam
 
 BOOST_VERSION=1_72_0
 
-boost-windows: i2pdbundle/boost
+boost: i2pdbundle/boost
 
 i2pdbundle/boost:
 	cd i2pdbundle && \
@@ -71,30 +71,41 @@ i2pdbundle/boost:
 		mv boost_$(BOOST_VERSION) boost && \
 		cd boost && \
 			./bootstrap.sh && \
-			./b2 toolset=gcc-mingw target-os=windows variant=release link=static runtime-link=static address-model=64 \
+			./b2 toolset=gcc --prefix=$(PWD)/i2pdbundle/stage target-os=linux variant=release link=static runtime-link=static address-model=64 \
 			--build-type=minimal --with-system --with-filesystem --with-program_options --with-date_time \
-			--stagedir=stage-mingw-64
+			--stagedir=stage-64
+
+#i2pdbundle/boost:
+#	cd i2pdbundle && \
+#		wget -O boost.zip https://dl.bintray.com/boostorg/release/1.72.0/source/boost_$(BOOST_VERSION).zip && \
+#		unzip boost.zip && rm boost.zip && \
+#		mv boost_$(BOOST_VERSION) boost && \
+#		cd boost && \
+#			./bootstrap.sh && \
+#			./b2 toolset=gcc-mingw target-os=windows variant=release link=static runtime-link=static address-model=64 \
+#			--build-type=minimal --with-system --with-filesystem --with-program_options --with-date_time \
+#			--stagedir=stage-64
 
 SSL_VERSION=1_0_2s
 
-openssl-windows:
+openssl-static:
 	cd i2pdbundle && \
 		git clone https://github.com/openssl/openssl; \
 		cd openssl && \
 		git checkout OpenSSL_$(SSL_VERSION) && \
-		./Configure mingw64 no-rc2 no-rc4 no-rc5 no-idea no-bf no-cast no-whirlpool no-md2 no-md4 no-ripemd no-mdc2 \
+		./Configure linux-x86_64 no-rc2 no-rc4 no-rc5 no-idea no-bf no-cast no-whirlpool no-md2 no-md4 no-ripemd no-mdc2 \
 		  no-camellia no-seed no-comp no-krb5 no-gmp no-rfc3779 no-ec2m no-ssl2 no-jpake no-srp no-sctp no-srtp \
-		  --prefix=$(PWD)/i2pdbundle/stage --cross-compile-prefix=x86_64-w64-mingw32-  && \
+		  --prefix=$(PWD)/i2pdbundle/stage  && \
 		make depend  && \
 		make && \
 		make install
 
-zlib-windows:
+zlib-static:
 	cd i2pdbundle && \
 		git clone https://github.com/madler/zlib; \
 		cd zlib && \
 		git checkout v1.2.8 && \
-		CC=x86_64-w64-mingw32-gcc CFLAGS=-O3 ./configure --static --64 --prefix=$(PWD)/i2pdbundle/stage && \
+		CFLAGS=-O3 ./configure --static --64 --prefix=$(PWD)/i2pdbundle/stage && \
 		make && \
 		make install
 
@@ -113,7 +124,7 @@ i2pdbundle/miniupnpc:
 m:
 	ln -sf $(PWD)/i2pdbundle/miniupnpc $(HOME)/dev/
 
-hint-windows:
+hint-static:
 	@echo set\(CMAKE_SYSTEM_NAME Windows\) | tee $(PWD)/i2pdbundle/toolchain-mingw.cmake
 	@echo set\(CMAKE_C_COMPILER x86_64-w64-mingw32-gcc\) | tee -a $(PWD)/i2pdbundle/toolchain-mingw.cmake
 	@echo set\(CMAKE_CXX_COMPILER x86_64-w64-mingw32\-g++\) | tee -a $(PWD)/i2pdbundle/toolchain-mingw.cmake
@@ -129,7 +140,12 @@ i2p-i2pd:
 
 i2pd-build: i2p-i2pd
 	cd i2pdbundle/i2pd && \
-		make
+		make LIBDIR="$(WORK_DIR)boost/stage-64/lib $(WORK_DIR)stage/lib" \
+			USE_STATIC=yes \
+			LIB_ROOT=$(WORK_DIR)stage \
+			BOOST_LIBRARYDIR=$(WORK_DIR)boost/stage-64/lib \
+			OPENSSL_ROOT_DIR=$(WORK_DIR)stage \
+			INCFLAGS="-I$(WORK_DIR)stage/include"
 
 CMAKE_MAKE_PROGRAM=make
 WORK_DIR=$(PWD)/i2pdbundle/
@@ -138,15 +154,23 @@ WORK_DIR=$(PWD)/i2pdbundle/
 #export CC=x86_64-w64-mingw32-gcc
 #export CXX=x86_64-w64-mingw32-g++
 
-#i2pd-build-windows: i2p-i2pd
-#	cd i2pdbundle/i2pd && \
-#		CC=x86_64-w64-mingw32-gcc \
-#		CXX=x86_64-w64-mingw32-g++ \
-#		make
-
-i2pd-build-windows: hint-windows boost-windows openssl-windows zlib-windows miniupnp-source i2p-i2pd
+i2pd-build-2: i2p-i2pd
 	cd i2pdbundle/i2pd && \
-		rm -rf i2pd-mingw-64-build && \
+		CC=x86_64-w64-mingw32-gcc \
+		CXX=x86_64-w64-mingw32-g++ \
+		WITH_AESNI=ON \
+		WITH_STATIC=ON \
+		WITH_HARDENING=ON \
+		ZLIB_ROOT=$(WORK_DIR)stage \
+		BOOST_LIBRARYDIR:PATH=$(WORK_DIR)boost/stage-mingw-64/lib \
+		OPENSSL_ROOT_DIR:PATH=$(WORK_DIR)stage \
+		make
+
+static-env: hint-static boost openssl-static zlib-static miniupnp-source
+
+i2pd-build-windows: i2p-i2pd
+	cd i2pdbundle/i2pd && \
+		#rm -rf i2pd-mingw-64-build && \
 		mkdir -p i2pd-mingw-64-build && \
 		cd i2pd-mingw-64-build && \
 			BOOST_ROOT=$(WORK_DIR)boost cmake -G 'Unix Makefiles' $(WORK_DIR)i2pd/build \
@@ -160,7 +184,11 @@ i2pd-build-windows: hint-windows boost-windows openssl-windows zlib-windows mini
 	make && \
 	x86_64-w64-mingw32-strip i2pd.exe
 
-i2pd-zip: 
+i2pd-zip:
+	wget -c -O i2pdbundle/bundle/osx.zip https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_osx.tar.gz
+	cd i2pdbundle/bundle/ && tar xvf osx.zip
+	wget -c -O i2pdbundle/bundle/win.zip https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_win64_mingw_avx_aesni.zip
+	cd i2pdbundle/bundle/ && unzip win.zip
 
 i2pd-bundle: i2pd-zip
 	cd i2pdbundle #&& \
