@@ -7,7 +7,7 @@ import (
 
 type fsi interface{
     IsDir() bool
-    ReadDir(int) ([]os.FileInfo, error)
+    Readdir(int) ([]os.FileInfo, error)
 }
 
 func FindAllDirectories(filesystem fsi) ([]string, error) {
@@ -27,7 +27,7 @@ func FindAllDirectories(filesystem fsi) ([]string, error) {
     return nil, nil
 }
 
-func FindAllFiles(filesystem *fsi) ([]string, error) {
+func FindAllFiles(filesystem fsi) ([]string, error) {
     if filesystem.IsDir() {
         filelist, err := filesystem.Readdir(0)
         if err != nil {
