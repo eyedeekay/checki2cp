@@ -46,7 +46,7 @@ func FindAllFiles(filesystem fsi) ([]string, error) {
 	return nil, nil
 }
 
-func WriteAllFiles(filesystem fsi, unpackdir string) ( error) {
+func WriteAllFiles(filesystem fsi, unpackdir string) error {
 	if filesystem.IsDir() {
 		filelist, err := filesystem.Readdir(0)
 		if err != nil {
@@ -55,13 +55,15 @@ func WriteAllFiles(filesystem fsi, unpackdir string) ( error) {
 		var rlist []string
 		for index, fi := range filelist {
 			if file, err := filesystem.Open(fi.Name()); err == nil {
-                
-				if !file.IsDir() {
-					rlist = append(rlist, fi.Name())
-					log.Println(index, fi.Name())
-					err := ioutil.WriteFile(unpackdir + "" + fi.Name())
+				if !fi.IsDir() {
+					var buf []byte
+					if _, err := file.Read(buf); err == nil {
+						rlist = append(rlist, fi.Name())
+						log.Println(index, fi.Name())
+						err := ioutil.WriteFile(unpackdir+"/"+fi.Name(), buf, fi.FileMode())
+					}
 				}
-                file.Close()
+				file.Close()
 			}
 		}
 	}
