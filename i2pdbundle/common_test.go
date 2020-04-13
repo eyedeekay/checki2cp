@@ -2,7 +2,7 @@ package i2pd
 
 import (
 	"testing"
-    "github.com/eyedeekay/checki2cp/i2pdbundle/test_files"
+    . "github.com/eyedeekay/checki2cp/i2pdbundle/test_files"
 )
 
 func TestFSListFiles(t *testing.T) {
