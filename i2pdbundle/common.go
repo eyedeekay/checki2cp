@@ -5,7 +5,7 @@ import (
     "net/http"
 )
 
-func FindAllDirectories(filesystem *fs) ([]string, error) {
+func FindAllDirectories(filesystem http.FileSystem) ([]string, error) {
     if filesystem.IsDir() {
         filelist, err := filesystem.Readdir(0)
         if err != nil {
@@ -22,7 +22,7 @@ func FindAllDirectories(filesystem *fs) ([]string, error) {
     return nil, nil
 }
 
-func FindAllFiles(filesystem *fs) ([]string, error) {
+func FindAllFiles(filesystem http.FileSystem) ([]string, error) {
     if filesystem.IsDir() {
         filelist, err := filesystem.Readdir(0)
         if err != nil {
