@@ -1,4 +1,4 @@
-package i2pd
+package i2pdtest
 
 import (
 	"testing"
