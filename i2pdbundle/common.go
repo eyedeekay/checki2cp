@@ -3,6 +3,7 @@ package i2pd
 import (
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 )
 
