@@ -20,3 +20,11 @@ func TestFSListDirs(t *testing.T) {
     }
     t.Log(list)
 }
+
+func TestFSWriteFiles(t *testing.T) {
+    err := i2pd.WriteAllFiles(FS, "test-test")
+    if err != nil {
+        t.Fatal(err)
+    }
+    t.Log("Wrote files")
+}
