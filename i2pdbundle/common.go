@@ -1,6 +1,7 @@
 package i2pd
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -49,25 +50,28 @@ func FindAllFiles(filesystem fsi) ([]string, error) {
 
 func WriteAllFiles(filesystem fsi, unpackdir string) error {
 	if filesystem.IsDir() {
+		log.Println("Found a directory, preparing to start loop")
 		if filelist, err := filesystem.Readdir(0); err == nil {
 			var rlist []string
+			log.Println("Starting loop")
 			for index, fi := range filelist {
 				if file, err := filesystem.Open(fi.Name()); err == nil {
 					if !fi.IsDir() {
 						var buf []byte
 						if _, err := file.Read(buf); err == nil {
-							rlist = append(rlist, fi.Name())
+							//rlist = append(rlist, fi.Name())
 							log.Println(index, fi.Name())
 							if err := ioutil.WriteFile(unpackdir+"/"+fi.Name(), buf, fi.Mode()); err != nil {
-								return err
+								return fmt.Printf("Write file error", err)
 							}
+							log.Println("Wrote file", fi.Name())
 						} else {
-							return err
+							return fmt.Errorf("Read Error:", err)
 						}
 					}
 					file.Close()
 				} else {
-					return err
+					return fmt.Errorf("Open Error:", err)
 				}
 			}
 		} else {
