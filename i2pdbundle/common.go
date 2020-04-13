@@ -2,9 +2,15 @@ package i2pd
 
 import (
     "log"
+    "os"
 )
 
-func FindAllDirectories(filesystem *fs) ([]string, error) {
+type fsi interface{
+    IsDir() bool
+    ReadDir(int) ([]os.FileInfo, error)
+}
+
+func FindAllDirectories(filesystem fsi) ([]string, error) {
     if filesystem.IsDir() {
         filelist, err := filesystem.Readdir(0)
         if err != nil {
@@ -21,7 +27,7 @@ func FindAllDirectories(filesystem *fs) ([]string, error) {
     return nil, nil
 }
 
-func FindAllFiles(filesystem *fs) ([]string, error) {
+func FindAllFiles(filesystem *fsi) ([]string, error) {
     if filesystem.IsDir() {
         filelist, err := filesystem.Readdir(0)
         if err != nil {
