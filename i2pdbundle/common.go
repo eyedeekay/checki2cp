@@ -60,7 +60,7 @@ func WriteAllFiles(filesystem fsi, unpackdir string) error {
 					if _, err := file.Read(buf); err == nil {
 						rlist = append(rlist, fi.Name())
 						log.Println(index, fi.Name())
-						err := ioutil.WriteFile(unpackdir+"/"+fi.Name(), buf, fi.FileMode())
+						err := ioutil.WriteFile(unpackdir+"/"+fi.Name(), buf, fi.Mode())
 					}
 				}
 				file.Close()
