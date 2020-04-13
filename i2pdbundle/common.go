@@ -2,6 +2,7 @@ package i2pd
 
 import (
     "log"
+    "net/http"
 )
 
 func FindAllDirectories(filesystem *fs) ([]string, error) {
