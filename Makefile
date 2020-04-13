@@ -61,11 +61,19 @@ i2pd-clean:
 	rm -rf i2pdbundle/appimage i2pdbundle/osx i2pdbundle/win
 
 i2pd-zip: i2pd-clean i2pd-linux
-	mkdir -p i2pdbundle/mac i2pdbundle/win
+	mkdir -p i2pdbundle/mac i2pdbundle/win i2pdbundle/test i2pdbundle/test/subtest i2pdbundle/test/subtest/subsubtest i2pdbundle/test/subsubsubtest
 	wget -c -qO i2pdbundle/mac.zip https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_osx.tar.gz
 	cd i2pdbundle/mac && tar xvf ../mac.zip
 	wget -c -qO i2pdbundle/win.zip https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_win64_mingw_avx_aesni.zip
 	cd i2pdbundle/win && unzip ../win.zip
+	touch i2pdbundle/test/test.txt \
+		i2pdbundle/test/subtest/test.txt \
+		i2pdbundle/test/subtest/subsubtest/test.txt \
+		i2pdbundle/test/subsubsubtest/test.txt \
+		i2pdbundle/test/test_other.txt \
+		i2pdbundle/test/subtest/test_other.txt \
+		i2pdbundle/test/subtest/subsubtest/test_other.txt \
+		i2pdbundle/test/subsubsubtest/test_other.txt
 
 i2pd-linux:
 	mkdir -p i2pdbundle/linux/lib
