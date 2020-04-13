@@ -4,7 +4,7 @@ import (
     "log"
 )
 
-func FindAllSubdirectories(filesystem fs) ([]string, error) {
+func FindAllSubdirectories(filesystem *fs) ([]string, error) {
     if filesystem.IsDir() {
         filelist, err := filesystem.Readdir(0)
         if err != nil {
