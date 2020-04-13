@@ -10,6 +10,6 @@ func main() {
 	lorca.Embed("i2pd", "assets_linux.go", "linux")
     lorca.Embed("i2pd", "assets_darwin.go", "mac")
     lorca.Embed("i2pd", "assets_windows.go", "win")
-    lorca.Embed("i2pd", "test_files/assets_test.go", "test")
+    lorca.Embed("i2pdtest", "test_files/assets_test.go", "test")
 }
 
