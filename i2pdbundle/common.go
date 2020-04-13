@@ -2,10 +2,9 @@ package i2pd
 
 import (
     "log"
-    "net/http"
 )
 
-func FindAllDirectories(filesystem http.FileSystem) ([]string, error) {
+func FindAllDirectories(filesystem *fs) ([]string, error) {
     if filesystem.IsDir() {
         filelist, err := filesystem.Readdir(0)
         if err != nil {
@@ -22,7 +21,7 @@ func FindAllDirectories(filesystem http.FileSystem) ([]string, error) {
     return nil, nil
 }
 
-func FindAllFiles(filesystem http.FileSystem) ([]string, error) {
+func FindAllFiles(filesystem *fs) ([]string, error) {
     if filesystem.IsDir() {
         filelist, err := filesystem.Readdir(0)
         if err != nil {
