@@ -9,7 +9,7 @@ import (
 type fsi interface {
 	IsDir() bool
 	Readdir(int) ([]os.FileInfo, error)
-	Open(name string) (os.File, error)
+	Open(name string) (http.File, error)
 }
 
 func FindAllDirectories(filesystem fsi) ([]string, error) {
