@@ -1,45 +1,69 @@
 package i2pd
 
 import (
-    "log"
-    "os"
+	"io/ioutil"
+	"log"
+	"os"
 )
 
-type fsi interface{
-    IsDir() bool
-    Readdir(int) ([]os.FileInfo, error)
+type fsi interface {
+	IsDir() bool
+	Readdir(int) ([]os.FileInfo, error)
+	Open(name string) (os.File, error)
 }
 
 func FindAllDirectories(filesystem fsi) ([]string, error) {
-    if filesystem.IsDir() {
-        filelist, err := filesystem.Readdir(0)
-        if err != nil {
-            return nil, err
-        }
-        var rlist []string
-        for index, file := range filelist {
-            if file.IsDir(){
-                rlist = append(rlist, file.Name())
-                log.Println(index, file.Name())
-            }
-        }
-    }
-    return nil, nil
+	if filesystem.IsDir() {
+		filelist, err := filesystem.Readdir(0)
+		if err != nil {
+			return nil, err
+		}
+		var rlist []string
+		for index, file := range filelist {
+			if file.IsDir() {
+				rlist = append(rlist, file.Name())
+				log.Println(index, file.Name())
+			}
+		}
+	}
+	return nil, nil
 }
 
 func FindAllFiles(filesystem fsi) ([]string, error) {
-    if filesystem.IsDir() {
-        filelist, err := filesystem.Readdir(0)
-        if err != nil {
-            return nil, err
-        }
-        var rlist []string
-        for index, file := range filelist {
-            if !file.IsDir(){
-                rlist = append(rlist, file.Name())
-                log.Println(index, file.Name())
-            }
-        }
-    }
-    return nil, nil
+	if filesystem.IsDir() {
+		filelist, err := filesystem.Readdir(0)
+		if err != nil {
+			return nil, err
+		}
+		var rlist []string
+		for index, file := range filelist {
+			if !file.IsDir() {
+				rlist = append(rlist, file.Name())
+				log.Println(index, file.Name())
+			}
+		}
+	}
+	return nil, nil
+}
+
+func WriteAllFiles(filesystem fsi, unpackdir string) ( error) {
+	if filesystem.IsDir() {
+		filelist, err := filesystem.Readdir(0)
+		if err != nil {
+			return nil, err
+		}
+		var rlist []string
+		for index, fi := range filelist {
+			if file, err := filesystem.Open(fi.Name()); err == nil {
+                
+				if !file.IsDir() {
+					rlist = append(rlist, fi.Name())
+					log.Println(index, fi.Name())
+					err := ioutil.WriteFile(unpackdir + "" + fi.Name())
+				}
+                file.Close()
+			}
+		}
+	}
+	return nil, nil
 }
