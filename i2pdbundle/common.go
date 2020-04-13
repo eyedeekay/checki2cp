@@ -61,11 +61,15 @@ func WriteAllFiles(filesystem fsi, unpackdir string) error {
 						rlist = append(rlist, fi.Name())
 						log.Println(index, fi.Name())
 						err := ioutil.WriteFile(unpackdir+"/"+fi.Name(), buf, fi.Mode())
+					} else {
+						return err
 					}
 				}
 				file.Close()
+			} else {
+				return err
 			}
 		}
 	}
-	return nil, nil
+	return nil
 }
