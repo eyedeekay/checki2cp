@@ -2,11 +2,11 @@ package i2pd
 
 import (
 	"testing"
-    . "github.com/eyedeekay/checki2cp/i2pdbundle/test_files"
+    "github.com/eyedeekay/checki2cp/i2pdbundle"
 )
 
 func TestFSListFiles(t *testing.T) {
-    list, err := FindAllFiles(i2pdtest.FS)
+    list, err := i2pd.FindAllFiles(FS)
     if err != nil {
         t.Fatal(err)
     }
@@ -14,7 +14,7 @@ func TestFSListFiles(t *testing.T) {
 }
 
 func TestFSListDirs(t *testing.T) {
-    list, err := FindAllDirectories(i2pdtest.FS)
+    list, err := i2pd.FindAllDirectories(FS)
     if err != nil {
         t.Fatal(err)
     }
