@@ -20,6 +20,9 @@ I2PD Embedding Tools:
 
 ### Roadmap
 
+libboost-date-time1.67.0,libboost-filesystem1.67.0,libboost-program-options1.67.0,libboost-system1.67.0,libc6,libgcc1,libminiupnpc17,libssl1.1,libstdc++6,zlib1g,lsb-base
+
+
  1. Do a 100% static build of our own, less getHostByName peculiarities.
  2. Set up router with SWIG instead of with static embedded executable.
  3. Minimize number of components we build(nothing but I2PControl, SAM, and
