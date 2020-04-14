@@ -34,8 +34,9 @@ func FindAllDirectories(filesystem fsi) ([]string, error) {
 				log.Println(index, filepath.Dir(file.Name()))
 			}
 		}
+		return rlist, nil
 	}
-	return rlist, nil
+	return nil, nil
 }
 
 func FindAllFiles(filesystem fsi) ([]string, error) {
