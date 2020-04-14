@@ -56,7 +56,7 @@ func FindAllFiles(filesystem fsi) ([]string, error) {
 }
 
 func WriteAllFiles(filesystem fsi, unpackdir string) error {
-	dirs, err := FindAllDirectories(fsi)
+	dirs, err := FindAllDirectories(filesystem)
 	if err != nil {
 		return fmt.Errorf("Directory Discovery Error, %s", err)
 	}
@@ -69,14 +69,12 @@ func WriteAllFiles(filesystem fsi, unpackdir string) error {
 	if filesystem.IsDir() {
 		log.Println("Found a directory, preparing to start loop")
 		if filelist, err := filesystem.Readdir(0); err == nil {
-			//var rlist []string
 			log.Println("Starting loop")
 			for index, fi := range filelist {
 				if file, err := filesystem.Open(fi.Name()); err == nil {
 					if !fi.IsDir() {
 						var buf []byte
 						if _, err := file.Read(buf); err == nil {
-							//rlist = append(rlist, fi.Name())
 							log.Println(index, fi.Name())
 							if err := ioutil.WriteFile(unpackdir+"/"+fi.Name(), buf, fi.Mode()); err != nil {
 								return fmt.Errorf("Write file error", err)
