@@ -61,10 +61,11 @@ func WriteAllFiles(filesystem fsi, unpackdir string) error {
 		return fmt.Errorf("Directory Discovery Error, %s", err)
 	}
 	for _, dir := range dirs {
-		os.MkdirAll(unpackdir+dir, 0755)
+		err := os.MkdirAll(unpackdir+dir, 0755)
 		if err != nil {
-			return fmt.Errorf("Directory Discovery Error, %s", err)
+			return fmt.Errorf("Directory Creation Error, %s", err)
 		}
+		log.Println("Created Directory", unpackdir+dir)
 	}
 	if filesystem.IsDir() {
 		log.Println("Found a directory, preparing to start loop")
@@ -76,7 +77,7 @@ func WriteAllFiles(filesystem fsi, unpackdir string) error {
 						var buf []byte
 						if _, err := file.Read(buf); err == nil {
 							log.Println(index, fi.Name())
-							if err := ioutil.WriteFile(unpackdir+"/"+fi.Name(), buf, fi.Mode()); err != nil {
+							if err := ioutil.WriteFile(unpackdir+fi.Name(), buf, fi.Mode()); err != nil {
 								return fmt.Errorf("Write file error", err)
 							}
 							log.Println("Wrote file", fi.Name())
