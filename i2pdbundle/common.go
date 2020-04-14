@@ -65,17 +65,17 @@ func WriteAllFiles(filesystem fsi, unpackdir string) error {
 								return fmt.Errorf("Write file error", err)
 							}
 							log.Println("Wrote file", fi.Name())
-						} else {
-							return fmt.Errorf("Read Error:", err)
-						}
+						} //else {
+						//return fmt.Errorf("Read Error: %s, %s", fi.Name(), err)
+						//}
 					}
 					file.Close()
 				} else {
-					return fmt.Errorf("Open Error:", err)
+					return fmt.Errorf("Open Error: %s", err)
 				}
 			}
 		} else {
-			return fmt.Errorf("Dir Error:", err)
+			return fmt.Errorf("Dir Error: %s", err)
 		}
 	}
 	return nil
