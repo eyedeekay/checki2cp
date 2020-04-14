@@ -56,6 +56,16 @@ func FindAllFiles(filesystem fsi) ([]string, error) {
 }
 
 func WriteAllFiles(filesystem fsi, unpackdir string) error {
+	dirs, err := FindAllDirectories(fsi)
+	if err != nil {
+		return fmt.Errorf("Directory Discovery Error, %s", err)
+	}
+	for _, dir := range dirs {
+		os.MkdirAll(unpackdir+dir, 0755)
+		if err != nil {
+			return fmt.Errorf("Directory Discovery Error, %s", err)
+		}
+	}
 	if filesystem.IsDir() {
 		log.Println("Found a directory, preparing to start loop")
 		if filelist, err := filesystem.Readdir(0); err == nil {
