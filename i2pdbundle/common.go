@@ -65,9 +65,9 @@ func WriteAllFiles(filesystem fsi, unpackdir string) error {
 								return fmt.Errorf("Write file error", err)
 							}
 							log.Println("Wrote file", fi.Name())
-						} //else {
-						//return fmt.Errorf("Read Error: %s, %s", fi.Name(), err)
-						//}
+						} else {
+							return fmt.Errorf("Read Error: %s, %s", fi.Name(), err)
+						}
 					}
 					file.Close()
 				} else {
