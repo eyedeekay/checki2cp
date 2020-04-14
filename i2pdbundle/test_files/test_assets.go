@@ -62,11 +62,11 @@ func (f *file) Sys() interface{} { return nil }
 
 func init() {
 	assets["/subsubsubtest/test.txt"] = []byte{}
-	assets["/subsubsubtest/test_other.txt"] = []byte{}
-	assets["/subtest/subsubtest/test.txt"] = []byte{}
-	assets["/subtest/subsubtest/test_other.txt"] = []byte{}
-	assets["/subtest/test.txt"] = []byte{}
-	assets["/subtest/test_other.txt"] = []byte{}
-	assets["/test.txt"] = []byte{}
-	assets["/test_other.txt"] = []byte{}
+	assets["/subsubsubtest/test_other.txt"] = []byte{0x74, 0x65, 0x73, 0x74}
+	assets["/subtest/subsubtest/test.txt"] = []byte{0x74, 0x65, 0x73, 0x74}
+	assets["/subtest/subsubtest/test_other.txt"] = []byte{0x74, 0x65, 0x73, 0x74}
+	assets["/subtest/test.txt"] = []byte{0x74, 0x65, 0x73, 0x74}
+	assets["/subtest/test_other.txt"] = []byte{0x74, 0x65, 0x73, 0x74}
+	assets["/test.txt"] = []byte{0x74, 0x65, 0x73, 0x74}
+	assets["/test_other.txt"] = []byte{0x74, 0x65, 0x73, 0x74}
 }
