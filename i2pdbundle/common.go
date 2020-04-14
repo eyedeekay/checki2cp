@@ -52,7 +52,7 @@ func WriteAllFiles(filesystem fsi, unpackdir string) error {
 	if filesystem.IsDir() {
 		log.Println("Found a directory, preparing to start loop")
 		if filelist, err := filesystem.Readdir(0); err == nil {
-			var rlist []string
+			//var rlist []string
 			log.Println("Starting loop")
 			for index, fi := range filelist {
 				if file, err := filesystem.Open(fi.Name()); err == nil {
@@ -75,7 +75,7 @@ func WriteAllFiles(filesystem fsi, unpackdir string) error {
 				}
 			}
 		} else {
-			return err
+			return fmt.Errorf("Dir Error:", err)
 		}
 	}
 	return nil
