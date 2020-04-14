@@ -61,7 +61,7 @@ func (f *file) IsDir() bool { return false }
 func (f *file) Sys() interface{} { return nil }
 
 func init() {
-	assets["/subsubsubtest/test.txt"] = []byte{}
+	assets["/subsubsubtest/test.txt"] = []byte{0x74, 0x65, 0x73, 0x74}
 	assets["/subsubsubtest/test_other.txt"] = []byte{0x74, 0x65, 0x73, 0x74}
 	assets["/subtest/subsubtest/test.txt"] = []byte{0x74, 0x65, 0x73, 0x74}
 	assets["/subtest/subsubtest/test_other.txt"] = []byte{0x74, 0x65, 0x73, 0x74}
