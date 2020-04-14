@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	//"strings"
+	"path/filepath"
 )
 
 type fsi interface {
@@ -23,9 +23,15 @@ func FindAllDirectories(filesystem fsi) ([]string, error) {
 		}
 		var rlist []string
 		for index, file := range filelist {
-			if file.IsDir() {
-				rlist = append(rlist, file.Name())
-				log.Println(index, file.Name())
+			add := true
+			for _, dir := range rlist {
+				if dir == filepath.Dir(file.Name()) {
+					add = false
+				}
+			}
+			if add {
+				rlist = append(rlist, filepath.Dir(file.Name()))
+				log.Println(index, filepath.Dir(file.Name()))
 			}
 		}
 	}
