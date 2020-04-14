@@ -56,7 +56,7 @@ func WriteAllFiles(filesystem fsi, unpackdir string) error {
 			//var rlist []string
 			log.Println("Starting loop")
 			for index, fi := range filelist {
-				if file, err := filesystem.Open(strings.TrimPrefix(fi.Name(), "/")); err == nil {
+				if file, err := filesystem.Open(fi.Name()); err == nil {
 					if !fi.IsDir() {
 						var buf []byte
 						if _, err := file.Read(buf); err == nil {
