@@ -35,7 +35,7 @@ func FindAllDirectories(filesystem fsi) ([]string, error) {
 			}
 		}
 	}
-	return nil, nil
+	return rlist, nil
 }
 
 func FindAllFiles(filesystem fsi) ([]string, error) {
