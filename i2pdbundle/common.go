@@ -2,98 +2,102 @@ package i2pd
 
 import (
 	"fmt"
+	"github.com/mholt/archiver/v3"
+	"github.com/shurcooL/httpfs/vfsutil"
+	"io"
 	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
-type fsi interface {
-	IsDir() bool
-	Readdir(int) ([]os.FileInfo, error)
-	Open(name string) (http.File, error)
-}
-
-func FindAllDirectories(filesystem fsi) ([]string, error) {
-	if filesystem.IsDir() {
-		filelist, err := filesystem.Readdir(0)
-		if err != nil {
-			return nil, err
-		}
-		var rlist []string
-		for index, file := range filelist {
-			add := true
-			for _, dir := range rlist {
-				if dir == filepath.Dir(file.Name()) {
-					add = false
-				}
-			}
-			if add {
-				rlist = append(rlist, filepath.Dir(file.Name()))
-				log.Println(index, filepath.Dir(file.Name()))
-			}
-		}
-		return rlist, nil
+func FileOK(path string) error {
+	if _, err := os.Stat(path); err == nil {
+		return nil
+	} else if os.IsNotExist(err) {
+		return err
+	} else {
+		return err
 	}
-	return nil, nil
 }
 
-func FindAllFiles(filesystem fsi) ([]string, error) {
-	if filesystem.IsDir() {
-		filelist, err := filesystem.Readdir(0)
-		if err != nil {
-			return nil, err
-		}
-		var rlist []string
-		for index, file := range filelist {
-			if !file.IsDir() {
-				rlist = append(rlist, file.Name())
-				log.Println(index, file.Name())
-			}
-		}
-	}
-	return nil, nil
-}
-
-func WriteAllFiles(filesystem fsi, unpackdir string) error {
-	dirs, err := FindAllDirectories(filesystem)
+//var walkFn = func(path string, fi os.FileInfo, err error) error {
+var walkFn = func(path string, fi os.FileInfo, r io.ReadSeeker, err error) error {
 	if err != nil {
-		return fmt.Errorf("Directory Discovery Error, %s", err)
+		log.Printf("can't stat file %s: %v\n", path, err)
+		return nil
 	}
-	for _, dir := range dirs {
-		err := os.MkdirAll(unpackdir+dir, 0755)
+	fmt.Println(path)
+	if !fi.IsDir() {
+		b, err := ioutil.ReadAll(r)
 		if err != nil {
-			return fmt.Errorf("Directory Creation Error, %s", err)
+			log.Printf("can't read file %s: %v\n", path, err)
+			return err
 		}
-		log.Println("Created Directory", unpackdir+dir)
-	}
-	if filesystem.IsDir() {
-		log.Println("Found a directory, preparing to start loop")
-		if filelist, err := filesystem.Readdir(0); err == nil {
-			log.Println("Starting loop")
-			for index, fi := range filelist {
-				if file, err := filesystem.Open(fi.Name()); err == nil {
-					if !fi.IsDir() {
-						var buf []byte
-						if _, err := file.Read(buf); err == nil {
-							log.Println(index, fi.Name())
-							if err := ioutil.WriteFile(unpackdir+fi.Name(), buf, fi.Mode()); err != nil {
-								return fmt.Errorf("Write file error", err)
-							}
-							log.Println("Wrote file", fi.Name())
-						} else {
-							return fmt.Errorf("Read Error: %s, %s", fi.Name(), err)
-						}
-					}
-					file.Close()
-				} else {
-					return fmt.Errorf("Open Error: %s", err)
-				}
-			}
-		} else {
-			return fmt.Errorf("Dir Error: %s", err)
+		dir, err := UnpackI2PdDir()
+		if err != nil {
+			log.Printf("can't find path: %v\n", err)
+			return err
 		}
+		err = ioutil.WriteFile(filepath.Join(dir, path), b, fi.Mode())
+		if err != nil {
+			log.Printf("can't write file %s: %v\n", filepath.Join(dir, path), err)
+			return err
+		}
+		//fmt.Printf("%q\n", b)
+		dirpath := strings.Split(path, ".")[0]
+		log.Printf("wrote file %s: %v", filepath.Join(dir, path), fi.Mode())
+		err = archiver.Unarchive(filepath.Join(dir, path), filepath.Join(dir, dirpath))
+		if err != nil {
+			log.Printf("can't unarchive file %s: %v\n", filepath.Join(dir, path), err)
+			return err
+		}
+		log.Printf("unpacked file %s", filepath.Join(dir, path))
 	}
 	return nil
+}
+
+func WriteAllFiles(targetdir string) error {
+	err := vfsutil.WalkFiles(FS, "/", walkFn)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func UnpackI2PdPath() (string, error) {
+	dirPath, err := UnpackI2PdDir()
+	if err != nil {
+		return "", err
+	}
+	ri2pd := filepath.Join(dirPath, "i2pd")
+	/*if err := FileOK(ri2pd); err != nil {
+		return "", err
+	}*/
+	return ri2pd, nil
+}
+
+func UnpackI2PdLibPath() (string, error) {
+	dirPath, err := UnpackI2PdDir()
+	if err != nil {
+		return "", err
+	}
+	rlib := filepath.Join(dirPath, "lib")
+	/*if err := FileOK(rlib); err != nil {
+		return "", err
+	}*/
+	return rlib, nil
+}
+
+func UnpackI2PdDir() (string, error) {
+	executablePath, err := os.Executable()
+	if err != nil {
+		return "", err
+	}
+	ri2pd := filepath.Dir(executablePath)
+	/*if err := FileOK(ri2pd); err != nil {
+		return "", err
+	}*/
+	return ri2pd, nil
 }

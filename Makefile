@@ -13,6 +13,11 @@ delete:
 
 GO_COMPILER_OPTS = -a -tags netgo -ldflags '-w -extldflags "-static"'
 
+btest: fmt
+	cd ./go-i2pd && rm -rf i2pd lib && go build $(GO_COMPILER_OPTS) && ./go-i2pd
+	#cd ./i2cpcheck && GOOS=windows GOARCH=amd64 go build $(GO_COMPILER_OPTS) -buildmode=exe -o i2cpcheck.exe
+
+
 build: fmt test clean
 	cd ./i2cpcheck && go build $(GO_COMPILER_OPTS)
 	cd ./i2cpcheck && GOOS=windows GOARCH=amd64 go build $(GO_COMPILER_OPTS) -buildmode=exe -o i2cpcheck.exe
@@ -77,7 +82,7 @@ i2pd-zip: i2pd-clean i2pd-linux
 
 i2pd-linux:
 	mkdir -p i2pdbundle/linux/lib
-	tar czvf i2pdbundle/linux/i2pd.tar.gz $(WORK_DIR)/i2pd-static-64-build/i2pd
+	cd $(WORK_DIR)/i2pd-static-64-build/ && tar czvf ../../../i2pdbundle/linux/i2pd.tar.gz ./i2pd
 	cp /lib64/ld-linux-x86-64.so.2 i2pdbundle/linux/lib
 	cp /lib/x86_64-linux-gnu/libc.so.6 i2pdbundle/linux/lib
 	cp /lib/x86_64-linux-gnu/libdl.so.2 i2pdbundle/linux/lib
@@ -85,7 +90,7 @@ i2pd-linux:
 	cp /lib/x86_64-linux-gnu/libm.so.6 i2pdbundle/linux/lib
 	cp /lib/x86_64-linux-gnu/libpthread.so.0 i2pdbundle/linux/lib
 	cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6 i2pdbundle/linux/lib
-	tar czvf i2pdbundle/linux/lib.tar.gz i2pdbundle/linux/lib
+	cd i2pdbundle/linux/lib && tar czvf ../lib.tar.gz .
 	rm -rf i2pdbundle/linux/lib
 
 
