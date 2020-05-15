@@ -69,10 +69,10 @@ zero-assets:
 I2PD_VERSION=2.31.0
 
 i2pd-clean:
-	rm -rf i2pdbundle/osx i2pdbundle/win_amd64 i2pdbundle/win_i386
+	rm -rf i2pdbundle/osx i2pdbundle/win_amd64 i2pdbundle/win_386
 
 i2pd-zip: i2pd-clean i2pd-linux
-	mkdir -p i2pdbundle/mac i2pdbundle/win_amd64 i2pdbundle/test i2pdbundle/test/subtest i2pdbundle/test/subtest/subsubtest i2pdbundle/test/subsubsubtest
+	mkdir -p i2pdbundle/mac i2pdbundle/win_amd64 i2pdbundle/win_386 i2pdbundle/test i2pdbundle/test/subtest i2pdbundle/test/subtest/subsubtest i2pdbundle/test/subsubsubtest
 	wget -c -qO i2pdbundle/mac.tar.gz https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_osx.tar.gz
 	cd i2pdbundle/mac && cp ../mac.tar.gz .
 	wget -c -qO i2pdbundle/win_amd64.zip https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_win64_mingw_avx_aesni.zip
