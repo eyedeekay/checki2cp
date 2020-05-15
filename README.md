@@ -185,4 +185,3 @@ libboost-date-time1.67.0,libboost-filesystem1.67.0,libboost-program-options1.67.
  3. Pure-Go I2PControl implementation.
  4. Pure-Go SAM implementation.
  5. Pure-Go I2CP implementation.
-
