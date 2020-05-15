@@ -17,3 +17,6 @@ go-i2pd/*.keys
 go-i2pd/*.info
 go-i2pd/*.pem
 go-i2pd/go-i2pd
+go-i2pd/go-i2pd.exe
+i2cpcheck/i2cpcheck
+i2cpcheck/i2cpcheck.exe

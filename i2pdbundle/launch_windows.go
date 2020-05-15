@@ -3,7 +3,7 @@ package i2pd
 import (
 	"fmt"
 	"log"
-	"os"
+	//"os"
 	"os/exec"
 	"path/filepath"
 

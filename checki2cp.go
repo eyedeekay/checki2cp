@@ -58,6 +58,10 @@ var (
 	OSX_DEFAULT_LOCATION string = inithome("/Library/Application Support/i2p/clients.config")
 )
 
+func i2pdArgs() ([]string, error) {
+	return []string{""}, nil
+}
+
 // CheckIC2PIsRunning is frequently the only thing I need a reliable, non-SAM
 // way to test at runtime.
 func CheckI2PIsRunning() (bool, error) {
