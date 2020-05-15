@@ -18,7 +18,7 @@ func FindI2Pd() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if err := FileOK(filepath.Join(path, "i2pd.exe")); err != nil {
+	if err := FileOK(filepath.Join(filepath.Dir(path), "i2pd.exe")); err != nil {
 		return "", err
 	}
 	return filepath.Join(path, "i2pd.exe"), nil
