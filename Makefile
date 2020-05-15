@@ -71,7 +71,7 @@ zero-assets:
 I2PD_VERSION=2.31.0
 
 i2pd-clean:
-	rm -rf i2pdbundle/osx i2pdbundle/win_amd64 i2pdbundle/win_386
+	rm -rf i2pdbundle/osx i2pdbundle/win_amd64 i2pdbundle/win_386 i2pdbundle/linux_amd64 i2pdbundle/test i2pdbundle/test_files
 
 i2pd-zip: i2pd-clean i2pd-linux
 	mkdir -p i2pdbundle/mac i2pdbundle/win_amd64 i2pdbundle/win_386 i2pdbundle/test i2pdbundle/test/subtest i2pdbundle/test/subtest/subsubtest i2pdbundle/test/subsubsubtest
