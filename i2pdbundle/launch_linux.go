@@ -103,4 +103,3 @@ func LaunchI2PdForce() (*exec.Cmd, error) {
 	}
 	return cmd, nil
 }
-
