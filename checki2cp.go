@@ -48,7 +48,7 @@ var (
 	I2PD_WINDOWS_DEFAULT_LOCATION string = `C:\\Program Files\I2Pd\i2pd.exe`
 	// LINUX_SYSTEM_LOCATION
 	LINUX_SYSTEM_LOCATION []string = []string{"/usr/bin/i2prouter", "/usr/sbin/i2prouter"}
-	// LINUX_I2PD_SYSTEM_LOCATION
+	// I2PD_LINUX_SYSTEM_LOCATION
 	I2PD_LINUX_SYSTEM_LOCATION string = "/usr/sbin/i2pd"
 	// I2P_ASUSER_HOME_LOCATION This is the path to the default I2P config directory when running as a user
 	I2P_ASUSER_HOME_LOCATION string = inithome(home())
