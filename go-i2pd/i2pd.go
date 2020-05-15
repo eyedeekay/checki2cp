@@ -1,12 +1,15 @@
 package main
 
 import (
+	"flag"
 	"log"
 
 	"github.com/eyedeekay/checki2cp/i2pdbundle"
 )
 
 func main() {
+	boolPtr := flag.Bool("force", false, "Force an embedded I2Pd router to start")
+	flag.Parse()
 	if err := i2pd.UnpackI2Pd(); err != nil {
 		log.Println(err)
 	}
@@ -15,8 +18,14 @@ func main() {
 	} else {
 		log.Println(path)
 	}
-	//	if cmd, err := i2pd.LaunchI2Pd(); err != nil {
-	if _, err := i2pd.LaunchI2Pd(); err != nil {
-		log.Println(err)
+	if !*boolPtr {
+		//	if cmd, err := i2pd.LaunchI2Pd(); err != nil {
+		if _, err := i2pd.LaunchI2Pd(); err != nil {
+			log.Println(err)
+		}
+	} else {
+		if _, err := i2pd.LaunchI2PdForce(); err != nil {
+			log.Println(err)
+		}
 	}
 }

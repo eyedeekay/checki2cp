@@ -38,19 +38,35 @@ func UnpackI2Pd() error {
 	return nil
 }
 
+// LaunchI2PConditional will check for specific services and if they are not found, start a standalone router
+func LaunchI2PdConditional(needI2CP, needProxy, needSAM bool) (*exec.Cmd, error) {
+	if needI2CP {
+		if notRunning, inError := checki2p.CheckI2PIsRunning(); inError != nil {
+			return nil, inError
+		} else if notRunning {
+			return nil, fmt.Errorf("I2P is already running with an open I2CP port")
+		}
+	}
+	if needProxy {
+		if checkproxy.ProxyDotI2P() {
+			return nil, fmt.Errorf("I2P is already running with an open HTTP proxy")
+		}
+	}
+	if needSAM {
+		if checksam.CheckSAMAvailable("") {
+			return nil, fmt.Errorf("I2P is already running with an open SAM API")
+		}
+	}
+	return LaunchI2PdForce()
+}
+
 // LaunchI2Pd will look for a running I2P router and if one is not found, it will start the embedded I2P router
 func LaunchI2Pd() (*exec.Cmd, error) {
-	if notRunning, inError := checki2p.CheckI2PIsRunning(); inError != nil {
-		return nil, inError
-	} else if notRunning {
-		return nil, fmt.Errorf("I2P is already running with an open I2CP port")
-	}
-	if checkproxy.ProxyDotI2P() {
-		return nil, fmt.Errorf("I2P is already running with an open HTTP proxy")
-	}
-	if checksam.CheckSAMAvailable("") {
-		return nil, fmt.Errorf("I2P is already running with an open SAM API")
-	}
+	return LaunchI2PdConditional(true, true, true)
+}
+
+// LaunchI2Pd attempts to launch the embedded I2P router no matter what.
+func LaunchI2PdForce() (*exec.Cmd, error) {
 	libPath, err := UnpackI2PdLibPath()
 	if err != nil {
 		return nil, err

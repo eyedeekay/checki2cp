@@ -65,10 +65,10 @@ i2pd-clean:
 
 i2pd-zip: i2pd-clean i2pd-linux
 	mkdir -p i2pdbundle/mac i2pdbundle/win i2pdbundle/test i2pdbundle/test/subtest i2pdbundle/test/subtest/subsubtest i2pdbundle/test/subsubsubtest
-	wget -c -qO i2pdbundle/mac.zip https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_osx.tar.gz
-	cd i2pdbundle/mac && tar xvf ../mac.zip
+	wget -c -qO i2pdbundle/mac.tar.gz https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_osx.tar.gz
+	cd i2pdbundle/mac && cp ../mac.tar.gz .
 	wget -c -qO i2pdbundle/win.zip https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_win64_mingw_avx_aesni.zip
-	cd i2pdbundle/win && unzip ../win.zip
+	cd i2pdbundle/win && cp ../win.zip .
 	touch i2pdbundle/test/test.txt \
 		i2pdbundle/test/subtest/test.txt \
 		i2pdbundle/test/subtest/subsubtest/test.txt \
