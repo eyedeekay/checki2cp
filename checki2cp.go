@@ -2,7 +2,6 @@ package checki2p
 
 import (
 	"fmt"
-	"github.com/eyedeekay/go-i2cp"
 	"io/ioutil"
 	"log"
 	"os"
@@ -10,6 +9,8 @@ import (
 	"os/user"
 	"runtime"
 	"strings"
+
+	"github.com/eyedeekay/go-i2cp"
 )
 
 func inithome(str string) string {
@@ -37,16 +38,29 @@ func home() string {
 }
 
 var (
-	I2CP_HOST                     string   = ""
-	I2CP_PORT                     string   = ""
-	WINDOWS_DEFAULT_LOCATION      string   = `C:\\Program Files\i2p\i2psvc.exe`
-	I2PD_WINDOWS_DEFAULT_LOCATION string   = `C:\\Program Files\I2Pd\i2pd.exe`
-	LINUX_SYSTEM_LOCATION         []string = []string{"/usr/bin/i2prouter", "/usr/sbin/i2prouter"}
-	I2PD_LINUX_SYSTEM_LOCATION    string   = "/usr/sbin/i2pd"
-	I2P_ASUSER_HOME_LOCATION      string   = inithome(home())
-	HOME_DIRECTORY_LOCATION       string   = inithome("/i2p/i2prouter")
-	OSX_DEFAULT_LOCATION          string   = inithome("/Library/Application Support/i2p/clients.config")
+	// I2CP_HOST is the i2cp host
+	I2CP_HOST string = ""
+	// I2CP_PORT is the i2cp port
+	I2CP_PORT string = ""
+	// WINDOWS_DEFAULT_LOCATION
+	WINDOWS_DEFAULT_LOCATION string = `C:\\Program Files\i2p\i2psvc.exe`
+	// I2PD_WINDOWS_DEFAULT_LOCATION
+	I2PD_WINDOWS_DEFAULT_LOCATION string = `C:\\Program Files\I2Pd\i2pd.exe`
+	// LINUX_SYSTEM_LOCATION
+	LINUX_SYSTEM_LOCATION []string = []string{"/usr/bin/i2prouter", "/usr/sbin/i2prouter"}
+	// LINUX_I2PD_SYSTEM_LOCATION
+	I2PD_LINUX_SYSTEM_LOCATION string = "/usr/sbin/i2pd"
+	// I2P_ASUSER_HOME_LOCATION This is the path to the default I2P config directory when running as a user
+	I2P_ASUSER_HOME_LOCATION string = inithome(home())
+	// HOME_DIRECTORY_LOCATION can use config/run from a user's $HOME directory, this is the path to that router
+	HOME_DIRECTORY_LOCATION string = inithome("/i2p/i2prouter")
+	// OSX_DEFAULT_LOCATION
+	OSX_DEFAULT_LOCATION string = inithome("/Library/Application Support/i2p/clients.config")
 )
+
+func i2pdArgs() ([]string, error) {
+	return []string{""}, nil
+}
 
 // CheckIC2PIsRunning is frequently the only thing I need a reliable, non-SAM
 // way to test at runtime.
@@ -101,6 +115,8 @@ func CheckI2PIsInstalledDefaultLocation() (bool, error) {
 	return false, nil
 }
 
+// UserFind makes sure that we never mis-identify the user account because of
+// sudo
 func UserFind() string {
 	if os.Geteuid() == 0 {
 		str := os.Getenv("SUDO_USER")
@@ -149,7 +165,8 @@ func CheckI2PUserName() (string, error) {
 
 // GetFirewallPort finds the configured UDP port of your I2P router to help
 // configure firewalls. It does this by finding the router.config and reading
-// it.
+// it. This function will not work on I2Pd routers yet but it should be easy
+// to add support once I get some more time to test and research it.
 func GetFirewallPort() (string, error) {
 	log.Println(I2P_ASUSER_HOME_LOCATION)
 	file, err := ioutil.ReadFile(I2P_ASUSER_HOME_LOCATION + "/router.config")
@@ -200,6 +217,9 @@ func FindI2PIsInstalledDefaultLocation() (string, error) {
 	return "", fmt.Errorf("i2p router not found.")
 }
 
+// ConditionallyLaunchI2P If an already-installed I2P router is present, then
+// make sure that it is started, i.e. launch the router *only* if it is not
+// already running.
 func ConditionallyLaunchI2P() (bool, error) {
 	ok, err := CheckI2PIsInstalledDefaultLocation()
 	if err != nil {
@@ -215,12 +235,12 @@ func ConditionallyLaunchI2P() (bool, error) {
 				if strings.HasSuffix(path, "i2prouter") {
 					cmd := exec.Command(path, "start")
 					if err := cmd.Start(); err != nil {
-						return false, fmt.Errorf("I2P router startup failure", err)
+						return false, fmt.Errorf("I2P router startup failure %s", err)
 					}
 				} else {
 					cmd := exec.Command(path, "--daemon")
 					if err := cmd.Start(); err != nil {
-						return false, fmt.Errorf("I2P router startup failure", err)
+						return false, fmt.Errorf("I2P router startup failure %s", err)
 					}
 				}
 				return true, nil

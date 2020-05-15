@@ -1,0 +1,8 @@
+BOOST_ROOT=$WORK_DIR/boost cmake -G 'Unix Makefiles' $WORK_DIR/i2pd/build \
+	-DBUILD_TYPE=Release \
+	-DCMAKE_TOOLCHAIN_FILE=$WORK_DIR/toolchain-mingw.cmake \
+	-DWITH_AESNI=ON -DWITH_STATIC=ON -DWITH_HARDENING=ON -DWITH_LIBRARY=OFF \
+	-DCMAKE_INSTALL_PREFIX:PATH=$WORK_DIR/i2pd/i2pd-mingw-64-static \
+	-DZLIB_ROOT=$WORK_DIR/stage \
+	-DBOOST_LIBRARYDIR:PATH=$WORK_DIR/boost/stage-mingw-64/lib \
+	-DOPENSSL_ROOT_DIR:PATH=$WORK_DIR/stage
