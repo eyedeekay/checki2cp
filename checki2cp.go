@@ -152,7 +152,8 @@ func CheckI2PUserName() (string, error) {
 
 // GetFirewallPort finds the configured UDP port of your I2P router to help
 // configure firewalls. It does this by finding the router.config and reading
-// it.
+// it. This function will not work on I2Pd routers yet but it should be easy
+// to add support once I get some more time to test and research it.
 func GetFirewallPort() (string, error) {
 	log.Println(I2P_ASUSER_HOME_LOCATION)
 	file, err := ioutil.ReadFile(I2P_ASUSER_HOME_LOCATION + "/router.config")
