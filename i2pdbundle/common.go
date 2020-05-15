@@ -74,8 +74,9 @@ port = 7656
 ### REASONING FOR ENABLING I2PCONTROL and CHANGING DEFAULT I2PCONTROL PORT
 ## Java I2P provides I2PControl via an embedded application which is available under localhost 7657, whereas I2Pd
 ## makes it available at localhost:7650 as it's own service. In order to resolve this, our application will need to
-## proxy requests to the underlying router. The port can't matter to the client behind the proxy, but we need to
-## guarantee one if we need to start an embedded router 
+## proxy requests to the underlying router or probe for it anyway. The port can't matter to the client behind the proxy
+## probe thingy, but we need to guarantee i2pcontrol if we need to start an embedded router because of a SAM
+## availability issue 
 [i2pcontrol]
 enabled = true
 address = 127.0.0.1
