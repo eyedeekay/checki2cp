@@ -12,3 +12,7 @@ i2pdbundle/win
 i2pdbundle/linux
 i2pdbundle/mac.zip
 i2pdbundle/windows.zip
+go-i2pd/*/
+go-i2pd/*.keys
+go-i2pd/*.info
+go-i2pd/*.pem
