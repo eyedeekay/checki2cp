@@ -39,9 +39,9 @@ func home() string {
 
 var (
 	// I2CP_HOST is the i2cp host
-	I2CP_HOST string = ""
+	I2CP_HOST string
 	// I2CP_PORT is the i2cp port
-	I2CP_PORT string = ""
+	I2CP_PORT string
 	// WINDOWS_DEFAULT_LOCATION
 	WINDOWS_DEFAULT_LOCATION string = `C:\\Program Files\i2p\i2psvc.exe`
 	// I2PD_WINDOWS_DEFAULT_LOCATION
