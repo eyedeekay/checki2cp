@@ -14,9 +14,7 @@ delete:
 GO_COMPILER_OPTS = -a -tags netgo -ldflags '-w -extldflags "-static"'
 
 btest: fmt
-	cd ./go-i2pd && rm -rf i2pd lib && go build $(GO_COMPILER_OPTS) && ./go-i2pd
-	#cd ./i2cpcheck && GOOS=windows GOARCH=amd64 go build $(GO_COMPILER_OPTS) -buildmode=exe -o i2cpcheck.exe
-
+	cd ./go-i2pd && rm -rf i2pd lib i2pd.pid && go build $(GO_COMPILER_OPTS) && ./go-i2pd
 
 build: fmt test clean
 	cd ./i2cpcheck && go build $(GO_COMPILER_OPTS)

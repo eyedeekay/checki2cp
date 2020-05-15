@@ -2,7 +2,6 @@ package checki2p
 
 import (
 	"fmt"
-	"github.com/eyedeekay/go-i2cp"
 	"io/ioutil"
 	"log"
 	"os"
@@ -10,6 +9,8 @@ import (
 	"os/user"
 	"runtime"
 	"strings"
+
+	"github.com/eyedeekay/go-i2cp"
 )
 
 func inithome(str string) string {
