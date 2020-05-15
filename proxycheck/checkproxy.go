@@ -24,18 +24,18 @@ func ProxyGetSite(url string) bool {
 	}
 	// make a sample HTTP GET request
 	// check for response error
-	if res, err := http.Get(url); err != nil {
+	res, err := http.Get(url)
+	if err != nil {
 		return false
-	} else {
-		// close response body
-		defer res.Body.Close()
-		// read all response body
-		if data, err := ioutil.ReadAll(res.Body); err != nil {
-			return false
-		} else {
-			// print `data` as a string
-			log.Printf("%s\n", data)
-		}
 	}
+	// close response body
+	defer res.Body.Close()
+	// read all response body
+	data, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return false
+	}
+	// print `data` as a string
+	log.Printf("%s\n", data)
 	return true
 }
