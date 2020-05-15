@@ -12,6 +12,7 @@ i2pdbundle/win
 i2pdbundle/linux
 i2pdbundle/*amd64/
 i2pdbundle/*386/
+i2pdbungle/*.zip
 i2pdbundle/mac/
 i2pdbundle/test/
 i2pdbundle/test_files/
