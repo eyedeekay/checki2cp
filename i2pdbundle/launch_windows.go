@@ -21,7 +21,7 @@ func FindI2Pd() (string, error) {
 	if err := FileOK(filepath.Join(filepath.Dir(path), "i2pd.exe")); err != nil {
 		return "", err
 	}
-	return filepath.Join(path, "i2pd.exe"), nil
+	return filepath.Join(filepath.Dir(path), "i2pd.exe"), nil
 }
 
 // UnpackI2Pd unpacks a working version of i2pd and some supporting libraries to a the directory of the executable
