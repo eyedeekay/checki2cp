@@ -18,13 +18,13 @@ func FindI2Pd() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if err := FileOK(filepath.Join(filepath.Dir(path), "i2pd.exe")); err != nil {
+	if err := FileOK(filepath.Join(path, "i2pd.exe")); err != nil {
 		return "", err
 	}
-	return filepath.Join(filepath.Dir(path), "i2pd.exe"), nil
+	return filepath.Join(path, "i2pd.exe"), nil
 }
 
-// UnpackI2Pd unpacks a working version of i2pd and some supporting libraries to a the directory of the executable
+// UnpackI2Pd unpacks a working version of i2pd and some supporting libraries to the directory of the executable
 // that will start i2pd
 func UnpackI2Pd() error {
 	dir, err := UnpackI2PdPath()
@@ -67,21 +67,10 @@ func LaunchI2Pd() (*exec.Cmd, error) {
 
 // LaunchI2Pd attempts to launch the embedded I2P router no matter what.
 func LaunchI2PdForce() (*exec.Cmd, error) {
-	libPath, err := UnpackI2PdLibPath()
-	if err != nil {
-		return nil, err
-	}
-	if err := FileOK(libPath); err != nil {
-		return nil, err
-	}
 	i2pd, err := FindI2Pd()
-	if err := FileOK(libPath); err != nil {
+	if err := FileOK(i2pd); err != nil {
 		return nil, err
 	}
-	//err = os.Setenv("LD_LIBRARY_PATH", libPath)
-	//if err != nil {
-	//return nil, err
-	//}
 	log.Println(i2pd)
 	runDir, err := UnpackI2PdDir()
 	if err != nil {
@@ -94,9 +83,6 @@ func LaunchI2PdForce() (*exec.Cmd, error) {
 		"--tunconf="+filepath.Join(runDir, "tunnels.conf"),
 		"--log=none",
 	)
-	//cmd.Env = append(os.Environ(),
-	//"LD_LIBRARY_PATH="+libPath, // ignored
-	//)
 	log.Printf("running command: %v %s", cmd.Env, cmd.String())
 	if err := cmd.Start(); err != nil {
 		log.Fatal(err)

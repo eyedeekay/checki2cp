@@ -16,7 +16,9 @@ GO_COMPILER_OPTS = -a -tags netgo -ldflags '-w -extldflags "-static"'
 launchers: fmt test clean
 	cd ./go-i2pd && rm -rf i2pd lib i2pd.pid && go build $(GO_COMPILER_OPTS)
 	cd ./go-i2pd && rm -rf i2pd lib i2pd.pid && GOOS=windows go build -o go-i2pd.exe $(GO_COMPILER_OPTS)
+	cd ./go-i2pd && rm -rf i2pd lib i2pd.pid && GOOS=windows go build -o go-i2pd-32.exe $(GO_COMPILER_OPTS)
 	#cd ./go-i2pd && rm -rf i2pd lib i2pd.pid && GOOS=darwin go build $(GO_COMPILER_OPTS)
+
 
 btest: fmt
 	cd ./go-i2pd && rm -rf i2pd lib i2pd.pid && go build $(GO_COMPILER_OPTS) && ./go-i2pd
@@ -77,6 +79,8 @@ i2pd-zip: i2pd-clean i2pd-linux
 	cd i2pdbundle/mac && cp ../mac.tar.gz .
 	wget -c -qO i2pdbundle/win_amd64.zip https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_win64_mingw_avx_aesni.zip
 	cd i2pdbundle/win_amd64 && cp ../win_amd64.zip .
+	wget -c -qO i2pdbundle/win_386.zip https://github.com/PurpleI2P/i2pd/releases/download/$(I2PD_VERSION)/i2pd_$(I2PD_VERSION)_win32_mingw_avx_aesni.zip
+	cd i2pdbundle/win_386 && cp ../win_386.zip .
 	touch i2pdbundle/test/test.txt \
 		i2pdbundle/test/subtest/test.txt \
 		i2pdbundle/test/subtest/subsubtest/test.txt \

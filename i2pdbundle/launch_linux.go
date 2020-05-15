@@ -75,7 +75,7 @@ func LaunchI2PdForce() (*exec.Cmd, error) {
 		return nil, err
 	}
 	i2pd, err := FindI2Pd()
-	if err := FileOK(libPath); err != nil {
+	if err := FileOK(i2pd); err != nil {
 		return nil, err
 	}
 	err = os.Setenv("LD_LIBRARY_PATH", libPath)
