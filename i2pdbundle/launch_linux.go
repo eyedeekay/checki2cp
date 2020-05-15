@@ -12,7 +12,7 @@ import (
 	"github.com/eyedeekay/checki2cp/samcheck"
 )
 
-// FindI2P returns the absolute path to the i2pd executable
+// FindI2Pd returns the absolute path to the i2pd executable
 func FindI2Pd() (string, error) {
 	path, err := UnpackI2PdPath()
 	if err != nil {
@@ -38,7 +38,7 @@ func UnpackI2Pd() error {
 	return nil
 }
 
-// LaunchI2PConditional will check for specific services and if they are not found, start a standalone router
+// LaunchI2PdConditional will check for specific services and if they are not found, start a standalone router
 func LaunchI2PdConditional(needI2CP, needProxy, needSAM bool) (*exec.Cmd, error) {
 	if needI2CP {
 		if notRunning, inError := checki2p.CheckI2PIsRunning(); inError != nil {
@@ -65,7 +65,7 @@ func LaunchI2Pd() (*exec.Cmd, error) {
 	return LaunchI2PdConditional(true, true, true)
 }
 
-// LaunchI2Pd attempts to launch the embedded I2P router no matter what.
+// LaunchI2PdForce attempts to launch the embedded I2P router no matter what.
 func LaunchI2PdForce() (*exec.Cmd, error) {
 	libPath, err := UnpackI2PdLibPath()
 	if err != nil {

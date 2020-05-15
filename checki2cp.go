@@ -62,7 +62,7 @@ func i2pdArgs() ([]string, error) {
 	return []string{""}, nil
 }
 
-// CheckIC2PIsRunning is frequently the only thing I need a reliable, non-SAM
+// CheckI2PIsRunning is frequently the only thing I need a reliable, non-SAM
 // way to test at runtime.
 func CheckI2PIsRunning() (bool, error) {
 	client := go_i2cp.NewClient(nil)
@@ -226,7 +226,8 @@ func ConditionallyLaunchI2P() (bool, error) {
 		return false, err
 	}
 	if ok {
-		if ok, err := CheckI2PIsRunning(); err == nil {
+		ok, err := CheckI2PIsRunning()
+		if err == nil {
 			if !ok {
 				path, err := FindI2PIsInstalledDefaultLocation()
 				if err != nil {
@@ -246,10 +247,8 @@ func ConditionallyLaunchI2P() (bool, error) {
 				return true, nil
 			}
 			return true, nil
-		} else {
-			return false, err
 		}
-	} else {
-		return false, fmt.Errorf("I2P is not a default location, please set $I2P environment variable")
+		return false, err
 	}
+	return false, fmt.Errorf("I2P is not a default location, please set $I2P environment variable")
 }

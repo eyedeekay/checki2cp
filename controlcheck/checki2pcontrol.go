@@ -4,6 +4,9 @@ import (
 	"github.com/eyedeekay/go-i2pcontrol"
 )
 
+// CheckI2PControlEcho attempts a connection and an echo command on it.
+// it returns true if the command is successful and false, with an error,
+// if not.
 func CheckI2PControlEcho(host, port, password, path string) (bool, error) {
 	if host == "" {
 		host = "127.0.0.1"
@@ -42,6 +45,9 @@ func CheckI2PControlEcho(host, port, password, path string) (bool, error) {
 	return false, finalError
 }
 
+// GetDefaultI2PControlPath probes default locations for the I2PControl API, returning
+// either a working I2PControl API and no error, or the defaults of the embedded router
+// and an error
 func GetDefaultI2PControlPath() (string, string, string, error) {
 	host := "127.0.0.1"
 	port := "7650"

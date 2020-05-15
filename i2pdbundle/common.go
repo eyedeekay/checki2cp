@@ -88,10 +88,10 @@ var tunnelFile = `#
 # tunnels.conf file intentionally left blank
 #`
 
-// Set the environment variable I2P_DIRECTORY_PATH to override the path returned by UnpackI2PdDir
+// I2P_DIRECTORY_PATH Sets the environment variable I2P_DIRECTORY_PATH to override the path returned by UnpackI2PdDir
 var I2P_DIRECTORY_PATH = ""
 
-// Returns nil if a file exists and an error for everything else. Used to check for file existence.
+// FileOK Returns nil if a file exists and an error for everything else. Used to check for file existence.
 func FileOK(path string) error {
 	if _, err := os.Stat(path); err == nil {
 		return nil
@@ -136,7 +136,7 @@ var walkFn = func(path string, fi os.FileInfo, r io.ReadSeeker, err error) error
 	return nil
 }
 
-//WriteConfOptions generates a default config file for the bundle
+// WriteConfOptions generates a default config file for the bundle
 func WriteConfOptions(targetdir string) error {
 	if FileOK(filepath.Join(filepath.Dir(targetdir), "i2pd.conf")) != nil {
 		err := ioutil.WriteFile(filepath.Join(filepath.Dir(targetdir), "i2pd.conf"), []byte(configFile), 0644)
@@ -147,7 +147,7 @@ func WriteConfOptions(targetdir string) error {
 	return nil
 }
 
-//WritetunnelOptions generates a default tunnel config file for the bundle
+// WritetunnelOptions generates a default tunnel config file for the bundle
 func WriteTunnelOptions(targetdir string) error {
 	if FileOK(filepath.Join(filepath.Dir(targetdir), "tunnels.conf")) != nil {
 		err := ioutil.WriteFile(filepath.Join(filepath.Dir(targetdir), "tunnels.conf"), []byte(tunnelFile), 0644)
@@ -158,7 +158,7 @@ func WriteTunnelOptions(targetdir string) error {
 	return nil
 }
 
-//WriteAllFiles generates an I2Pd installation and configuration for the bundle
+// WriteAllFiles generates an I2Pd installation and configuration for the bundle
 func WriteAllFiles(targetdir string) error {
 	if err := vfsutil.WalkFiles(FS, "/", walkFn); err != nil {
 		return err
@@ -172,7 +172,8 @@ func WriteAllFiles(targetdir string) error {
 	return nil
 }
 
-//
+// UnpackI2PdPath tells the bundle where to unpack I2Pd and resolves to the
+// calling app's Dir+/i2pd
 func UnpackI2PdPath() (string, error) {
 	dirPath, err := UnpackI2PdDir()
 	if err != nil {
@@ -182,7 +183,8 @@ func UnpackI2PdPath() (string, error) {
 	return ri2pd, nil
 }
 
-//
+// UnpackI2PdLibPath tells the bundle where to unpack I2Pd library dependencies
+// on Linux and resolves to the calling apps Dir+/i2pd
 func UnpackI2PdLibPath() (string, error) {
 	dirPath, err := UnpackI2PdDir()
 	if err != nil {
@@ -192,7 +194,7 @@ func UnpackI2PdLibPath() (string, error) {
 	return rlib, nil
 }
 
-//
+// UnpackI2PdDir tells the bundle where the I2Pd-bundling app exists
 func UnpackI2PdDir() (string, error) {
 	if I2P_DIRECTORY_PATH != "" {
 		return I2P_DIRECTORY_PATH, nil

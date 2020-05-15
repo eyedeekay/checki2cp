@@ -38,7 +38,7 @@ func UnpackI2Pd() error {
 	return nil
 }
 
-// LaunchI2PConditional will check for specific services and if they are not found, start a standalone router
+// LaunchI2PdConditional will check for specific services and if they are not found, start a standalone router
 func LaunchI2PdConditional(needI2CP, needProxy, needSAM bool) (*exec.Cmd, error) {
 	if needI2CP {
 		if notRunning, inError := checki2p.CheckI2PIsRunning(); inError != nil {
@@ -65,7 +65,7 @@ func LaunchI2Pd() (*exec.Cmd, error) {
 	return LaunchI2PdConditional(true, true, true)
 }
 
-// LaunchI2Pd attempts to launch the embedded I2P router no matter what.
+// LaunchI2PdForce attempts to launch the embedded I2P router no matter what.
 func LaunchI2PdForce() (*exec.Cmd, error) {
 	i2pd, err := FindI2Pd()
 	if err := FileOK(i2pd); err != nil {
