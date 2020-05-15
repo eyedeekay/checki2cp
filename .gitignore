@@ -10,6 +10,11 @@ i2pdbundle/miniupnpc
 i2pdbundle/mac
 i2pdbundle/win
 i2pdbundle/linux
+i2pdbundle/*amd64/
+i2pdbundle/*386/
+i2pdbundle/mac/
+i2pdbundle/test/
+i2pdbundle/test_files/
 i2pdbundle/mac.zip
 i2pdbundle/windows.zip
 go-i2pd/*/
