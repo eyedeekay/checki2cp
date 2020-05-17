@@ -137,7 +137,9 @@ var walkFn = func(path string, fi os.FileInfo, r io.ReadSeeker, err error) error
 }
 
 // WriteConfOptions generates a default config file for the bundle
-func WriteConfOptions(targetdir string) error {
+var WriteConfOptions = writeConfOptions
+
+func writeConfOptions(targetdir string) error {
 	if FileOK(filepath.Join(filepath.Dir(targetdir), "i2pd.conf")) != nil {
 		err := ioutil.WriteFile(filepath.Join(filepath.Dir(targetdir), "i2pd.conf"), []byte(configFile), 0644)
 		if err != nil {
@@ -148,7 +150,9 @@ func WriteConfOptions(targetdir string) error {
 }
 
 // WritetunnelOptions generates a default tunnel config file for the bundle
-func WriteTunnelOptions(targetdir string) error {
+var WriteTunnelOptions = writeTunnelOptions
+
+func writeTunnelOptions(targetdir string) error {
 	if FileOK(filepath.Join(filepath.Dir(targetdir), "tunnels.conf")) != nil {
 		err := ioutil.WriteFile(filepath.Join(filepath.Dir(targetdir), "tunnels.conf"), []byte(tunnelFile), 0644)
 		if err != nil {
@@ -159,7 +163,9 @@ func WriteTunnelOptions(targetdir string) error {
 }
 
 // WriteAllFiles generates an I2Pd installation and configuration for the bundle
-func WriteAllFiles(targetdir string) error {
+var WriteAllFiles = writeAllFiles
+
+func writeAllFiles(targetdir string) error {
 	if err := vfsutil.WalkFiles(FS, "/", walkFn); err != nil {
 		return err
 	}

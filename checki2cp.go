@@ -33,6 +33,8 @@ func checkfileexists(path string) bool {
 func home() string {
 	if runtime.GOOS == "windows" {
 		return "\\i2p"
+	} else if runtime.GOOS == "darwin" {
+		return "/Library/Application Support/i2p"
 	}
 	return "/.i2p"
 }
