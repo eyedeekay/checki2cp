@@ -31,15 +31,25 @@ func WhereIsTheConfigDir() (string, error) {
 	}
 	switch path {
 	case checki2p.WINDOWS_DEFAULT_LOCATION:
-		env := os.Getenv("LOCALAPPDATA")
+		env := os.Getenv("APPDATA")
 		if env == "" {
 			return "", fmt.Errorf("Could not find local appdata path")
+		} else {
+			env = os.Getenv("LOCALAPPDATA")
+			if env == "" {
+				return "", fmt.Errorf("Could not find local appdata path")
+			}
 		}
 		return filepath.Join(env, "I2P"), nil
 	case checki2p.I2PD_WINDOWS_DEFAULT_LOCATION:
-		env := os.Getenv("LOCALAPPDATA")
+		env := os.Getenv("APPDATA")
 		if env == "" {
 			return "", fmt.Errorf("Could not find local appdata path")
+		} else {
+			env = os.Getenv("LOCALAPPDATA")
+			if env == "" {
+				return "", fmt.Errorf("Could not find local appdata path")
+			}
 		}
 		return filepath.Join(env, "i2pd"), nil
 	case checki2p.LINUX_SYSTEM_LOCATION[0]:
