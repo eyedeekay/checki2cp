@@ -43,10 +43,11 @@ func WhereIsTheConfigDir() (string, error) {
 		}
 		return filepath.Join(env, "i2pd"), nil
 	case checki2p.LINUX_SYSTEM_LOCATION[0]:
-		return "/var/lib/i2p/i2p-config/netDb", nil
+		return "/var/lib/i2p/i2p-config/", nil
 	case checki2p.LINUX_SYSTEM_LOCATION[1]:
-		return "/var/lib/i2p/i2p-config/netDb", nil
+		return "/var/lib/i2p/i2p-config/", nil
 	case checki2p.I2PD_LINUX_SYSTEM_LOCATION:
+		return "/var/lib/i2pd/", nil
 	case checki2p.I2P_ASUSER_HOME_LOCATION:
 		return checki2p.I2P_ASUSER_HOME_LOCATION, nil
 	case checki2p.HOME_DIRECTORY_LOCATION:
