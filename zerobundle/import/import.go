@@ -3,6 +3,7 @@ package zerobundle
 import (
 	"io/ioutil"
 	"os"
+	"runtime"
 	"path/filepath"
 
 	"github.com/mholt/archiver/v3"
@@ -23,62 +24,62 @@ import (
 
 func TBZBytes() ([]byte, error) {
 	var bytes []byte
-	ba, err := gsaa.WriteBrowser(gsaa.FS)
+	ba, err := izaa.WriteBrowser(izaa.FS)
 	if err != nil {
 		return nil, err
 	}
 	bytes = append(bytes, ba...)
-	bb, err := gsab.WriteBrowser(gsab.FS)
+	bb, err := izab.WriteBrowser(izab.FS)
 	if err != nil {
 		return nil, err
 	}
 	bytes = append(bytes, bb...)
-	bc, err := gsac.WriteBrowser(gsac.FS)
+	bc, err := izac.WriteBrowser(izac.FS)
 	if err != nil {
 		return nil, err
 	}
 	bytes = append(bytes, bc...)
-	bd, err := gsad.WriteBrowser(gsad.FS)
+	bd, err := izad.WriteBrowser(izad.FS)
 	if err != nil {
 		return nil, err
 	}
 	bytes = append(bytes, bd...)
-	be, err := gsae.WriteBrowser(gsae.FS)
+	be, err := izae.WriteBrowser(izae.FS)
 	if err != nil {
 		return nil, err
 	}
 	bytes = append(bytes, be...)
-	bf, err := gsaf.WriteBrowser(gsaf.FS)
+	bf, err := izaf.WriteBrowser(izaf.FS)
 	if err != nil {
 		return nil, err
 	}
 	bytes = append(bytes, bf...)
-	bg, err := gsag.WriteBrowser(gsag.FS)
+	bg, err := izag.WriteBrowser(izag.FS)
 	if err != nil {
 		return nil, err
 	}
 	bytes = append(bytes, bg...)
-	bh, err := gsah.WriteBrowser(gsah.FS)
+	bh, err := izah.WriteBrowser(izah.FS)
 	if err != nil {
 		return nil, err
 	}
 	bytes = append(bytes, bh...)
-	bi, err := gsai.WriteBrowser(gsai.FS)
+	bi, err := izai.WriteBrowser(izai.FS)
 	if err != nil {
 		return nil, err
 	}
 	bytes = append(bytes, bi...)
-	bj, err := gsaj.WriteBrowser(gsaj.FS)
+	bj, err := izaj.WriteBrowser(izaj.FS)
 	if err != nil {
 		return nil, err
 	}
 	bytes = append(bytes, bj...)
-	bk, err := gsak.WriteBrowser(gsak.FS)
+	bk, err := izak.WriteBrowser(izak.FS)
 	if err != nil {
 		return nil, err
 	}
 	bytes = append(bytes, bk...)
-	bl, err := gsal.WriteBrowser(gsal.FS)
+	bl, err := izal.WriteBrowser(izal.FS)
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +121,7 @@ func Unpack(destinationDirectory string) error {
 	if err != nil {
 		return err
 	}
-	err = WriteTBZ()
+	err = Write()
 	if err != nil {
 		return err
 	}

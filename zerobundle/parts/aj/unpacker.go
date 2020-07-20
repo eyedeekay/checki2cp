@@ -20,7 +20,7 @@ func userFind() string {
 	return ""
 }
 
-var userdir = filepath.Join(userFind(), "/i2p/i2p-zero")
+var userdir = filepath.Join(userFind(), "/i2p/opt/i2p-zero")
 
 func writeFile(val os.FileInfo, system *fs) ([]byte, error) {
 	if !val.IsDir() {
