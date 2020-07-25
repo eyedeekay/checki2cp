@@ -1,0 +1,2 @@
+JAVA_VERSION="14.0.1"
+MODULES="java.base java.logging java.security.sasl java.naming java.xml combined jdk.crypto.ec org.getmonero.i2p.zero"
