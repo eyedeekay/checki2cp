@@ -89,7 +89,7 @@ var tunnelFile = `#
 #`
 
 // I2P_DIRECTORY_PATH Sets the environment variable I2P_DIRECTORY_PATH to override the path returned by UnpackI2PdDir
-var I2P_DIRECTORY_PATH = ""
+var I2P_DIRECTORY_PATH = os.Getenv("I2P_DIRECTORY_PATH")
 
 // FileOK Returns nil if a file exists and an error for everything else. Used to check for file existence.
 func FileOK(path string) error {

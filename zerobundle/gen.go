@@ -86,19 +86,19 @@ func main() {
 	if err := splitBinaries("i2p-zero-linux.v1.17.zip"); err != nil {
 		log.Fatal(err)
 	}
-	if err := updateAllChunks("linux", "i2p-zero-linux.v1.17.zip"); err != nil{
+	if err := updateAllChunks("linux", "i2p-zero-linux.v1.17.zip"); err != nil {
 		log.Fatal(err)
 	}
 	if err := splitBinaries("i2p-zero-win.v1.17.zip"); err != nil {
 		log.Fatal(err)
 	}
-	if err := updateAllChunks("windows", "i2p-zero-win.v1.17.zip"); err != nil{
+	if err := updateAllChunks("windows", "i2p-zero-win.v1.17.zip"); err != nil {
 		log.Fatal(err)
 	}
 	if err := splitBinaries("i2p-zero-darwin.v1.17.zip"); err != nil {
 		log.Fatal(err)
 	}
-	if err := updateAllChunks("darwin", "i2p-zero-darwin.v1.17.zip"); err != nil{
+	if err := updateAllChunks("darwin", "i2p-zero-darwin.v1.17.zip"); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -119,16 +119,16 @@ var libs = []string{
 }
 
 func updateChunk(chunk, platform, file string) error {
-	err := lorca.Embed("iz"+chunk, "parts/"+chunk+"/chunk_" + platform + ".go", file+"."+chunk)
+	err := lorca.Embed("iz"+chunk, "parts/"+chunk+"/chunk_"+platform+".go", file+"."+chunk)
 	if err != nil {
 		return err
 	}
-	log.Println("embedded iz"+chunk)
+	log.Println("embedded iz" + chunk)
 	return nil
 }
 
 func updateAllChunks(platform, file string) error {
-	for _, lib:= range libs {
+	for _, lib := range libs {
 		updateChunk(lib, platform, file)
 	}
 	return nil
@@ -185,4 +185,3 @@ func generateGoUnpacker() error {
 	}
 	return nil
 }
-
