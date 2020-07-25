@@ -61,7 +61,11 @@ func LatestZeroBinDirJavaHome() string {
 	if er != nil {
 		log.Fatal(er)
 	}
-	return filepath.Join(JAVA_I2P_OPT_DIR, fs[len(fs)-1].Name(), "router", "bin")
+	if runtime.GOOS == "windows" {
+		return filepath.Join(JAVA_I2P_OPT_DIR, fs[len(fs)-1].Name(), "router")
+	} else {
+		return filepath.Join(JAVA_I2P_OPT_DIR, fs[len(fs)-1].Name(), "router", "bin")
+	}
 }
 
 func StopZero() {
@@ -147,9 +151,9 @@ func SAM() error {
 	}
 	defer tcp.Close()
 	if runtime.GOOS == "windows" {
-	    tcp.Write([]byte("sam.create\r\n"))
-    }else{
-    	tcp.Write([]byte("sam.create\n"))
-    }
+		tcp.Write([]byte("sam.create\r\n"))
+	} else {
+		tcp.Write([]byte("sam.create\n"))
+	}
 	return nil
 }
