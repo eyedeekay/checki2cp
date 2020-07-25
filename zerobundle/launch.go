@@ -4,6 +4,7 @@ import (
 	"context"
 	"io/ioutil"
 	"log"
+	"net"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -44,7 +45,11 @@ func LatestZeroBinDir() string {
 		if er != nil {
 			log.Fatal(er)
 		}
-		return filepath.Join(dir, fs[len(fs)-1].Name(), "router", "bin")
+		if runtime.GOOS == "windows" {
+			return filepath.Join(dir, fs[len(fs)-1].Name(), "router")
+		} else {
+			return filepath.Join(dir, fs[len(fs)-1].Name(), "router", "bin")
+		}
 	} else {
 		log.Fatal(err)
 	}
@@ -92,6 +97,15 @@ func RunZero() error {
 	return cmd.Run()
 }
 
+func StartZero() error {
+	var err error
+	cmd, err = CommandZero()
+	if err != nil {
+		return err
+	}
+	return cmd.Start()
+}
+
 func CommandZeroJavaHome() (*exec.Cmd, error) {
 	if err := UnpackZeroJavaHome(); err != nil {
 		log.Println(err)
@@ -115,4 +129,27 @@ func RunZeroJavaHome() error {
 		return err
 	}
 	return cmd.Run()
+}
+
+func StartZeroJavaHome() error {
+	var err error
+	cmd, err = CommandZeroJavaHome()
+	if err != nil {
+		return err
+	}
+	return cmd.Start()
+}
+
+func SAM() error {
+	tcp, err := net.DialTCP("ip4", nil, &net.TCPAddr{IP: net.ParseIP("127.0.0.1"), Port: 8051})
+	if err != nil {
+		return err
+	}
+	defer tcp.Close()
+	if runtime.GOOS == "windows" {
+	    tcp.Write([]byte("sam.create\r\n"))
+    }else{
+    	tcp.Write([]byte("sam.create\n"))
+    }
+	return nil
 }
