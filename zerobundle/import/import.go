@@ -3,8 +3,8 @@ package zerobundle
 import (
 	"io/ioutil"
 	"os"
-	"runtime"
 	"path/filepath"
+	"runtime"
 
 	"github.com/mholt/archiver/v3"
 

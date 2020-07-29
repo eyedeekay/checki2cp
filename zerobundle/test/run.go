@@ -14,6 +14,6 @@ func main() {
 	latest := LatestZeroJavaHome()
 	log.Println("latest zero version is:", latest)
 	if err := RunZeroJavaHome(); err != nil {
-	    log.Fatal(err)
+		log.Fatal(err)
 	}
 }
