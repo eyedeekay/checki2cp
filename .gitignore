@@ -1,7 +1,5 @@
-zerobundle/i2p-zero
-zerobundle/mac/assets.go
-zerobundle/windows/assets.go
-zerobundle/linux/assets.go
+
+zerobundle
 i2pdbundle/i2pd
 i2pdbundle/zlib
 i2pdbundle/openssl

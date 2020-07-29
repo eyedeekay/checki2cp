@@ -4,10 +4,12 @@ go 1.13
 
 require (
 	github.com/andybalholm/brotli v1.0.0 // indirect
+	github.com/eyedeekay/go-fpw v0.0.0-20200512022837-c8b4dcdc74d4
 	github.com/eyedeekay/go-i2cp v0.0.0-20190716135428-6d41bed718b0
 	github.com/eyedeekay/go-i2pcontrol v0.0.0-20200110011336-510cca77e350
 	github.com/eyedeekay/sam3 v0.32.2
 	github.com/golang/gddo v0.0.0-20200324184333-3c2cc9a6329d // indirect
+	github.com/jpillora/go-tcp-proxy v1.0.0 // indirect
 	github.com/klauspost/compress v1.10.5 // indirect
 	github.com/klauspost/pgzip v1.2.3 // indirect
 	github.com/kr/fs v0.1.0
