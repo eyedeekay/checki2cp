@@ -15,6 +15,10 @@ which would otherwise prefer an existing I2P Router. This means that the standar
 
 5. Start the external application.
 
+Doing things in this way allows us to conserve resources by not running redundant I2P Routers on the same computer,
+while also allowing the use of an embedded I2P router to auto-configure standalone applications on computer even when
+I2P is not present.
+
 Use Scenarios
 -------------
 
