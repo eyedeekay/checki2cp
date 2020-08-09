@@ -80,6 +80,7 @@ func CheckI2PIsRunning() (bool, error) {
 		return false, fmt.Errorf("")
 	}
 	client.Disconnect()
+	log.Println("I2P is running.")
 	return true, nil
 }
 

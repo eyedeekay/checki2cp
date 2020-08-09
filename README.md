@@ -7,7 +7,8 @@ checki2cp
 Library and terminal application which checks for the presence of a usable i2p
 router by attempting various I2P client-related probes and tests. Includes 
 everything you need to completely embed I2Pd in a Go application on Linux,
-with Windows and OSX support forthcoming.
+OSX, and Windows, or use them as modular tools for checking the status of your
+I2P router.
 
 Directories
 -----------
@@ -26,7 +27,7 @@ Directories
   default) over an I2P HTTP Proxy.
  * **./samcheck**  **-** A tool for determining the presence of an I2P router by doing a brief interaction with the SAM
   API.
- * **./zerobundle**  **-** *DO NOT USE THIS!* It will require some lateral thinking to make this one work right.
+ * **./zerobundle**  **-** Moved to [eyedeekay/zerobundle](https://github.com/eyedeekay/zerobundle)
 
 I2P Router Presence Detection tools
 -----------------------------------
