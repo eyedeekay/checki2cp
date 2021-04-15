@@ -250,15 +250,20 @@ func ConditionallyLaunchI2P() (bool, error) {
 				if err != nil {
 					return false, err
 				}
-				if strings.HasSuffix(path, "i2prouter") {
+				if strings.HasSuffix(path, "i2prouter") || strings.HasSuffix(path, "i2prouter.exe") || strings.HasSuffix(path, "i2psvc") || strings.HasSuffix(path, "i2psvc.exe") {
 					cmd := exec.Command(path, "start")
 					if err := cmd.Start(); err != nil {
 						return false, fmt.Errorf("I2P router startup failure %s", err)
 					}
-				} else {
+				} else if strings.HasSuffix(path, "i2pd") || strings.HasSuffix(path, "i2pd.exe") {
 					cmd := exec.Command(path, "--daemon")
 					if err := cmd.Start(); err != nil {
-						return false, fmt.Errorf("I2P router startup failure %s", err)
+						return false, fmt.Errorf("i2pd router startup failure %s", err)
+					}
+				} else{
+					cmd := exec.Command(path)
+					if err := cmd.Start(); err != nil {
+						return false, fmt.Errorf("I2P Zero router startup failure %s", err)
 					}
 				}
 				return true, nil
