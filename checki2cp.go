@@ -46,6 +46,8 @@ var (
 	I2CP_PORT string
 	// WINDOWS_DEFAULT_LOCATION
 	WINDOWS_DEFAULT_LOCATION string = `C:\\Program Files\i2p\i2psvc.exe`
+	// WINDOWS_ZERO_NSIS_DEFAULT_LOCATION
+	WINDOWS_ZERO_NSIS_DEFAULT_LOCATION string = `C:\\Program Files\I2P-Zero\router\i2p-zero.exe`
 	// I2PD_WINDOWS_DEFAULT_LOCATION
 	I2PD_WINDOWS_DEFAULT_LOCATION string = `C:\\Program Files\I2Pd\i2pd.exe`
 	// LINUX_SYSTEM_LOCATION
@@ -99,6 +101,10 @@ func CheckI2PIsInstalledDefaultLocation() (bool, error) {
 		log.Println("Windows i2p router detected")
 		return true, nil
 	}
+	if checkfileexists(WINDOWS_ZERO_NSIS_DEFAULT_LOCATION) {
+		log.Println("Windows i2p zero router detected")
+		return true, nil
+	}
 	if checkfileexists(LINUX_SYSTEM_LOCATION[0]) {
 		log.Println("Linux i2p router detected")
 		return true, nil
@@ -146,6 +152,10 @@ func CheckI2PUserName() (string, error) {
 	if checkfileexists(WINDOWS_DEFAULT_LOCATION) {
 		log.Println("Windows i2p router detected")
 		return "i2psvc", nil
+	}
+	if checkfileexists(WINDOWS_ZERO_NSIS_DEFAULT_LOCATION) {
+		log.Println("Windows i2p router detected")
+		return "i2p-zero", nil
 	}
 	if checkfileexists(LINUX_SYSTEM_LOCATION[0]) {
 		log.Println("Linux i2p router detected")
@@ -200,6 +210,10 @@ func FindI2PIsInstalledDefaultLocation() (string, error) {
 	if checkfileexists(WINDOWS_DEFAULT_LOCATION) {
 		log.Println("Windows i2p router detected")
 		return WINDOWS_DEFAULT_LOCATION, nil
+	}
+	if checkfileexists(WINDOWS_ZERO_NSIS_DEFAULT_LOCATION) {
+		log.Println("Windows i2p router detected")
+		return WINDOWS_ZERO_NSIS_DEFAULT_LOCATION, nil
 	}
 	if checkfileexists(LINUX_SYSTEM_LOCATION[0]) {
 		log.Println("Linux i2p router detected")
