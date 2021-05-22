@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"os/user"
+	"path/filepath"
 	"runtime"
 	"strings"
 
@@ -18,7 +19,8 @@ func inithome(str string) string {
 	if e != nil {
 		panic(e)
 	}
-	return s + str
+	log.Println(filepath.Join(s, str))
+	return filepath.Join(s, str)
 }
 
 func checkfileexists(path string) bool {
@@ -69,10 +71,11 @@ func i2pdArgs() ([]string, error) {
 // CheckI2PIsRunning is frequently the only thing I need a reliable, non-SAM
 // way to test at runtime.
 func CheckI2PIsRunning() (bool, error) {
+	log.Println("Trying to discover a running I2P router")
 	client := go_i2cp.NewClient(nil)
 	err := client.Connect()
 	if err != nil {
-		return false, err
+		return false, nil
 	}
 	destination, err := go_i2cp.NewDestination()
 	if err != nil {
@@ -239,12 +242,12 @@ func FindI2PIsInstalledDefaultLocation() (string, error) {
 // already running.
 func ConditionallyLaunchI2P() (bool, error) {
 	log.Println("Checking if I2P is installed at a default location.")
-	ok, err := CheckI2PIsInstalledDefaultLocation()
+	ok, err := FindI2PIsInstalledDefaultLocation()
 	if err != nil {
 		return false, err
 	}
 	log.Println("I2P was found at a default location, continuing procedure on:", ok)
-	if ok {
+	if ok != "" {
 		ok, err := CheckI2PIsRunning()
 		if err == nil {
 			if !ok {
