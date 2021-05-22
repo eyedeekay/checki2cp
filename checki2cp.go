@@ -79,7 +79,7 @@ func CheckI2PIsRunning() (bool, error) {
 		return false, err
 	}
 	if destination == nil {
-		return false, fmt.Errorf("")
+		return false, fmt.Errorf("Client connection was made bug no destination could be generated.")
 	}
 	client.Disconnect()
 	log.Println("I2P is running.")
@@ -238,14 +238,17 @@ func FindI2PIsInstalledDefaultLocation() (string, error) {
 // make sure that it is started, i.e. launch the router *only* if it is not
 // already running.
 func ConditionallyLaunchI2P() (bool, error) {
+	log.Println("Checking if I2P is installed at a default location.")
 	ok, err := CheckI2PIsInstalledDefaultLocation()
 	if err != nil {
 		return false, err
 	}
+	log.Println("I2P was found at a default location, continuing procedure on:", ok)
 	if ok {
 		ok, err := CheckI2PIsRunning()
 		if err == nil {
 			if !ok {
+				log.Println("Looking for an I2P router to start")
 				path, err := FindI2PIsInstalledDefaultLocation()
 				if err != nil {
 					return false, err
@@ -260,13 +263,15 @@ func ConditionallyLaunchI2P() (bool, error) {
 					if err := cmd.Start(); err != nil {
 						return false, fmt.Errorf("i2pd router startup failure %s", err)
 					}
-				} else{
+				} else {
 					cmd := exec.Command(path)
 					if err := cmd.Start(); err != nil {
 						return false, fmt.Errorf("I2P Zero router startup failure %s", err)
 					}
 				}
 				return true, nil
+			} else {
+				log.Println("I2P appears to be running, nothing to do.")
 			}
 			return true, nil
 		}

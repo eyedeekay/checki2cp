@@ -22,7 +22,19 @@ func TestRouter(t *testing.T) {
 		t.Fatal(err)
 	}
 	if ok {
-		t.Log("I2P is installed, successfully confirmed")
+		t.Log("I2P is installed, successfully confirmed", ok)
+	} else {
+		t.Log("I2P is in a default location, user feedback is needed")
+	}
+}
+
+func TestRouterPath(t *testing.T) {
+	ok, err := FindI2PIsInstalledDefaultLocation()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ok != "" {
+		t.Log("I2P is installed, successfully confirmed", ok)
 	} else {
 		t.Log("I2P is in a default location, user feedback is needed")
 	}
