@@ -11,6 +11,7 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/eyedeekay/checki2cp/samcheck"
 	"github.com/eyedeekay/go-i2cp"
 )
 
@@ -72,6 +73,9 @@ func i2pdArgs() ([]string, error) {
 // way to test at runtime.
 func CheckI2PIsRunning() (bool, error) {
 	log.Println("Trying to discover a running I2P router")
+	if checksam.CheckSAMAvailable("127.0.0.1:7656") {
+		return true, nil
+	}
 	client := go_i2cp.NewClient(nil)
 	err := client.Connect()
 	if err != nil {
