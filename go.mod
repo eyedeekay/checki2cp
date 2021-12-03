@@ -19,7 +19,7 @@ require (
 	github.com/nwaples/rardecode v1.1.0 // indirect
 	github.com/pierrec/lz4 v2.5.2+incompatible // indirect
 	github.com/shurcooL/httpfs v0.0.0-20190707220628-8d4bc4ba7749
-	github.com/ulikunitz/xz v0.5.7 // indirect
+	github.com/ulikunitz/xz v0.5.10 // indirect
 	github.com/ybbus/jsonrpc v2.1.2+incompatible // indirect
 	github.com/zserge/lorca v0.1.9 // indirect
 )
