@@ -5,11 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/eyedeekay/checki2cp"
-	"github.com/eyedeekay/checki2cp/i2pdbundle"
+	checki2p "github.com/eyedeekay/checki2cp"
 )
-
-var UnpackI2PdDir = i2pd.UnpackI2PdDir
 
 // WhereIsTheNetDB returns the path to whatever the first local NetDB
 // it can find is. If it can't find one, it will output the path to an embedded NetDB
@@ -27,7 +24,7 @@ func WhereIstheNetDB() (string, error) {
 func WhereIsTheConfigDir() (string, error) {
 	path, err := checki2p.FindI2PIsInstalledDefaultLocation()
 	if err != nil {
-
+		return "", err
 	}
 	switch path {
 	case checki2p.WINDOWS_DEFAULT_LOCATION:
@@ -65,5 +62,5 @@ func WhereIsTheConfigDir() (string, error) {
 	case checki2p.OSX_DEFAULT_LOCATION:
 		return checki2p.I2P_ASUSER_HOME_LOCATION, nil
 	}
-	return UnpackI2PdDir()
+	return "", fmt.Errorf("Could not find local I2P configuration directory")
 }
