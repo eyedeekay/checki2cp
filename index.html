@@ -1,0 +1,390 @@
+<html>
+  <head>
+    <title>
+      checki2cp
+    </title>
+    <meta name="author" content="eyedeekay" />
+    <meta name="description" content="checki2cp" />
+    <meta name="keywords" content="master" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div id="navbar">
+      <a href="#shownav">
+        Show navigation
+      </a>
+      <div id="shownav">
+        <div id="hidenav">
+          <ul>
+            <li>
+              <a href="index.html">
+                index
+              </a>
+            </li>
+          </ul>
+          <br>
+          <a href="#hidenav">
+            Hide Navigation
+          </a>
+        </div>
+      </div>
+    </div>
+    <h1>
+      <a href="/">
+        checki2cp
+      </a>
+    </h1>
+    <p>
+      <a href="https://goreportcard.com/report/github.com/eyedeekay/checki2cp" rel="nofollow">
+        <img src="https://goreportcard.com/badge/github.com/eyedeekay/checki2cp" alt="Go Report Card"/>
+      </a>
+      <a href="http://godoc.org/github.com/eyedeekay/checki2cp" rel="nofollow">
+        <img src="https://godoc.org/github.com/eyedeekay/checki2cp?status.svg" alt="Documentation"/>
+      </a>
+    </p>
+    <p>
+      Library and terminal application which checks for the presence of a usable i2p
+      router by attempting various I2P client-related probes and tests. Includes
+      everything you need to completely embed I2Pd in a Go application on Linux,
+      OSX, and Windows, or use them as modular tools for checking the status of your
+      I2P router.
+    </p>
+    <h2>
+      Directories
+    </h2>
+    <ul>
+      <li>
+        <strong>
+          ./
+        </strong>
+        <strong>
+          -
+        </strong>
+        Files in the base directory contain functions that check for the presence of an I2P router in a default
+        location, or for the presence of an I2CP port. Makefile is also here.
+      </li>
+      <li>
+        <strong>
+          ./controlcheck
+        </strong>
+        <strong>
+          -
+        </strong>
+        Detects whether an I2PControl API endpoint is available, and provides a tool for finding
+        one if it is available. It is not recommended to use I2PControl checking for presence detection, you will need to
+        parse the errors to know what is going on.
+      </li>
+      <li>
+        <strong>
+          ./go-i2pd
+        </strong>
+        <strong>
+          -
+        </strong>
+        An example of running an embedded I2Pd router from a Go application
+      </li>
+      <li>
+        <strong>
+          ./i2cpcheck
+        </strong>
+        <strong>
+          -
+        </strong>
+        A terminal application which probes for an I2P router by looking in a default location, the
+        $PATH, or by probing I2CP.
+      </li>
+      <li>
+        <strong>
+          ./i2pdbundle
+        </strong>
+        <strong>
+          -
+        </strong>
+        A set of tools and libraries for embedding an I2Pd router in a Go application, then
+        installing it to a location under the application’s control.
+      </li>
+      <li>
+        <strong>
+          ./proxycheck
+        </strong>
+        <strong>
+          -
+        </strong>
+        A tool for determining the presence of an I2P router by making a request(to “proxy.i2p” by
+        default) over an I2P HTTP Proxy.
+      </li>
+      <li>
+        <strong>
+          ./samcheck
+        </strong>
+        <strong>
+          -
+        </strong>
+        A tool for determining the presence of an I2P router by doing a brief interaction with the SAM
+        API.
+      </li>
+      <li>
+        <strong>
+          ./zerobundle
+        </strong>
+        <strong>
+          -
+        </strong>
+        Moved to
+        <a href="https://github.com/eyedeekay/zerobundle" rel="nofollow">
+          eyedeekay/zerobundle
+        </a>
+      </li>
+    </ul>
+    <h2>
+      I2P Router Presence Detection tools
+    </h2>
+    <p>
+      Currently the command-line tool only does presence detection by checking for I2CP and or an I2P router installed in a
+      default location.
+    </p>
+    <h3>
+      Examples:
+    </h3>
+    <h4>
+      ./ Base Directory
+    </h4>
+    <h5>
+      Checking for an I2P Router by default install location
+    </h5>
+    <pre><code>	ok, err := CheckI2PIsInstalledDefaultLocation()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ok {
+		t.Log(&#34;I2P is installed, successfully confirmed&#34;)
+	} else {
+		t.Log(&#34;I2P is in a default location, user feedback is needed&#34;)
+	}
+</code></pre>
+    <h5>
+      Checking for an I2P Router by I2CP Port
+    </h5>
+    <pre><code>	ok, err := CheckI2PIsRunning()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ok {
+		t.Log(&#34;I2P is running, successfully confirmed I2CP&#34;)
+	} else {
+		t.Log(&#34;I2P is not running, further testing is needed&#34;)
+	}
+</code></pre>
+    <h5>
+      Launching an installed I2P router from the Library
+    </h5>
+    <p>
+      TODO: Make this function work better with i2pd, find a way to integrate it into into the tests, then write the example.
+    </p>
+    <h4>
+      ./proxycheck
+    </h4>
+    <h5>
+      Make a request through the default I2P HTTP Proxy to test presence
+    </h5>
+    <pre><code>	if ProxyDotI2P() {
+		t.Log(&#34;Proxy success&#34;)
+	} else {
+		t.Fatal(&#34;Proxy not found&#34;)
+	}
+</code></pre>
+    <h5>
+      Use a non-default proxy instead
+    </h5>
+    <p>
+      It honors the
+      <code>
+        http_proxy
+      </code>
+      environment variable, so just set it(I like to set both of these in case some system is
+      weird, I suppose it’s a meager measure.):
+    </p>
+    <pre><code>	if err := os.Setenv(&#34;HTTP_PROXY&#34;, &#34;http://127.0.0.1:4444&#34;); err != nil {
+		return false
+	}
+	if err := os.Setenv(&#34;http_proxy&#34;, &#34;http://127.0.0.1:4444&#34;); err != nil {
+		return false
+	}
+	if ProxyDotI2P() {
+		t.Log(&#34;Proxy success&#34;)
+	} else {
+		t.Fatal(&#34;Proxy not found&#34;)
+	}
+</code></pre>
+    <h4>
+      ./samcheck
+    </h4>
+    <h5>
+      Check if SAM is available on a default port
+    </h5>
+    <pre><code>	if CheckSAMAvailable(&#34;&#34;) {
+		t.Log(&#34;SAM success&#34;)
+	} else {
+		t.Fatal(&#34;SAM not found&#34;)
+	}
+</code></pre>
+    <h5>
+      Check if SAM is available on a non-default host or port
+    </h5>
+    <pre><code>	if CheckSAMAvailable(&#34;127.0.1.1:1234&#34;) {
+		t.Log(&#34;SAM success&#34;)
+	} else {
+		t.Fatal(&#34;SAM not found&#34;)
+	}
+</code></pre>
+    <h2>
+      I2PD Embedding Tools:
+    </h2>
+    <p>
+      In the very far future, it would be cool to have a 100% pure-Go I2P router, but for right now, what I want to work on is
+      a way of working with I2P and with Go applications,
+      <strong>
+        without
+      </strong>
+      requiring undue knowledge on the part of the user. The
+      theory is that they want to install one application at a time, and don’t want to run more than one I2P router unless
+      they need to. So the embedding tools assume that if they find an I2P router, that they should use that I2P router. At
+      this time, almost any useful I2P configuration will be detected and the embedded router will not start. In the future,
+      this behavior will be configurable.
+    </p>
+    <h4>
+      ./controlcheck
+    </h4>
+    <h5>
+      See if an I2PControl API is present on any default port
+    </h5>
+    <pre><code>	if itworks, err := CheckI2PControlEcho(&#34;&#34;, &#34;&#34;, &#34;&#34;, &#34;&#34;); works {
+		t.Log(&#34;Proxy success&#34;)
+	} else if err != nil {
+		t.Fatal(err)
+	} else {
+		t.Fatal(&#34;Proxy not found&#34;)
+	}
+</code></pre>
+    <h5>
+      Check what host:port/path corresponds to an available default I2PControl API
+    </h5>
+    <p>
+      TODO: Explain why you need this if your goal is to tolerate Java, I2Pd, and Embedded I2Pd all at once
+    </p>
+    <pre><code>	if host, port, path, err := GetDefaultI2PControlPath(); err != nil {
+		t.Fatal(&#34;I2PControl Not found&#34;)
+	} else {
+		t.Log(&#34;I2Pcontrol found at&#34;, host, port, path)
+	}
+</code></pre>
+    <h4>
+      ./i2pdbundle
+    </h4>
+    <p>
+      This will
+      <em>
+        completely
+      </em>
+      install, configure, wrap, and run a minimal i2pd router from within a Go application. From here
+      you attach applications via SAM and I2PControl.
+    </p>
+    <pre><code>	package main
+
+	import (
+		&#34;log&#34;
+
+		&#34;github.com/eyedeekay/checki2cp/i2pdbundle&#34;
+	)
+
+	func main() {
+		if err := i2pd.UnpackI2Pd(); err != nil {
+			log.Println(err)
+		}
+		if path, err := i2pd.FindI2Pd(); err != nil {
+			log.Println(err)
+		} else {
+			log.Println(path)
+		}
+		//	if cmd, err := i2pd.LaunchI2Pd(); err != nil {
+		if _, err := i2pd.LaunchI2Pd(); err != nil {
+			log.Println(err)
+		}
+	}
+</code></pre>
+    <h3>
+      Roadmap
+    </h3>
+    <p>
+      libboost-date-time1.67.0,libboost-filesystem1.67.0,libboost-program-options1.67.0,libboost-system1.67.0,libc6,libgcc1,libminiupnpc17,libssl1.1,libstdc++6,zlib1g,lsb-base
+    </p>
+    <ol>
+      <li>
+        Minimum requirement for Golang UI: Use i2pd and a custom LD_LIBRARY_PATH to create an i2pd bundle for use as a
+        fallback in the non-presence of a usable router.
+      </li>
+      <li>
+        Set up router with SWIG instead of with static embedded executable.
+      </li>
+      <li>
+        Minimize number of components we build(nothing but I2PControl, SAM, and
+        I2CP).
+      </li>
+      <li>
+        Provide easy router/client setup functions to import i2p routers into
+        applications with minimal boilerplate.
+      </li>
+      <li>
+        Pure-Go I2PControl implementation.
+      </li>
+      <li>
+        Pure-Go SAM implementation.
+      </li>
+      <li>
+        Pure-Go I2CP implementation.
+      </li>
+    </ol>
+    <div>
+      <a href="#show">
+        Show license
+      </a>
+      <div id="show">
+        <div id="hide">
+          <pre><code>MIT License
+
+Copyright (c) 2019 idk
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</code></pre>
+          <a href="#hide">
+            Hide license
+          </a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <iframe src="https://snowflake.torproject.org/embed.html" width="320" height="240" frameborder="0" scrolling="no"></iframe>
+    </div>
+    <div>
+      <a href="https://geti2p.net/">
+        I2P
+      </a>
+    </div>
+  </body>
+</html>
