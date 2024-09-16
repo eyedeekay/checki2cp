@@ -11,8 +11,8 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/eyedeekay/checki2cp/samcheck"
-	"github.com/eyedeekay/go-i2cp"
+	checksam "github.com/eyedeekay/checki2cp/samcheck"
+	go_i2cp "github.com/eyedeekay/go-i2cp"
 )
 
 func inithome(str string) string {
@@ -56,7 +56,7 @@ var (
 	// LINUX_SYSTEM_LOCATION
 	LINUX_SYSTEM_LOCATION []string = []string{"/usr/bin/i2prouter", "/usr/sbin/i2prouter"}
 	// I2PD_LINUX_SYSTEM_LOCATION
-	I2PD_LINUX_SYSTEM_LOCATION string = "/usr/sbin/i2pd"
+	I2PD_LINUX_SYSTEM_LOCATION []string = []string{"/usr/sbin/i2pd", "/usr/bin/i2pd"}
 	// I2P_ASUSER_HOME_LOCATION This is the path to the default I2P config directory when running as a user
 	I2P_ASUSER_HOME_LOCATION string = inithome(home())
 	// HOME_DIRECTORY_LOCATION can use config/run from a user's $HOME directory, this is the path to that router
@@ -100,7 +100,11 @@ func CheckI2PIsInstalledDefaultLocation() (bool, error) {
 		log.Println("Windows i2pd router detected")
 		return true, nil
 	}
-	if checkfileexists(I2PD_LINUX_SYSTEM_LOCATION) {
+	if checkfileexists(I2PD_LINUX_SYSTEM_LOCATION[0]) {
+		log.Println("Linux i2pd router detected")
+		return true, nil
+	}
+	if checkfileexists(I2PD_LINUX_SYSTEM_LOCATION[1]) {
 		log.Println("Linux i2pd router detected")
 		return true, nil
 	}
