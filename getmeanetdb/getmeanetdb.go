@@ -2,6 +2,7 @@ package getmeanetdb
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -24,7 +25,7 @@ func WhereIstheNetDB() (string, error) {
 func WhereIsTheConfigDir() (string, error) {
 	path, err := checki2p.FindI2PIsInstalledDefaultLocation()
 	if err != nil {
-		return "", err
+		log.Println("Warning: I2P is not installed at a default location.")
 	}
 	switch path {
 	case checki2p.WINDOWS_DEFAULT_LOCATION:
