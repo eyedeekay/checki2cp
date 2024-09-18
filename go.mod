@@ -6,7 +6,7 @@ require (
 	github.com/eyedeekay/go-i2cp v0.0.0-20190716135428-6d41bed718b0
 	github.com/eyedeekay/go-i2pcontrol v0.1.6
 	github.com/eyedeekay/goSam v0.32.31-0.20210122211817-f97683379f23 // indirect
-	github.com/eyedeekay/sam3 v0.33.7
+	github.com/eyedeekay/sam3 v0.33.8
 	github.com/golang/protobuf v1.3.1 // indirect
 	github.com/google/renameio v1.0.0 // indirect
 	github.com/kr/pretty v0.2.0 // indirect
