@@ -2,6 +2,8 @@ package checki2p
 
 import (
 	"testing"
+
+	"github.com/eyedeekay/checki2cp/util"
 )
 
 func TestRouterLaunch(t *testing.T) {
@@ -29,7 +31,7 @@ func TestClient(t *testing.T) {
 }
 
 func TestRouter(t *testing.T) {
-	ok, err := CheckI2PIsInstalledDefaultLocation()
+	ok, err := util.CheckI2PIsInstalledDefaultLocation()
 	if err != nil {
 		t.Fatal(err)
 	}

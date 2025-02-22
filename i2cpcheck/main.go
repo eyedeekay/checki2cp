@@ -5,9 +5,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/eyedeekay/checki2cp"
-	"github.com/eyedeekay/checki2cp/proxycheck"
-	"github.com/eyedeekay/checki2cp/samcheck"
+	checki2p "github.com/eyedeekay/checki2cp"
+	checkproxy "github.com/eyedeekay/checki2cp/proxycheck"
+	checksam "github.com/eyedeekay/checki2cp/samcheck"
+	"github.com/eyedeekay/checki2cp/util"
 )
 
 // CheckI2PRunning returns true if I2P is running. That's all.
@@ -47,7 +48,7 @@ func main() {
 	}
 	log.Println("I2P's firewall port is:", firewallport)
 
-	ok, err = checki2p.CheckI2PIsInstalledDefaultLocation()
+	ok, err = util.CheckI2PIsInstalledDefaultLocation()
 	if err != nil {
 		log.Fatal(err)
 	}
