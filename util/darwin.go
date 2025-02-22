@@ -2,6 +2,8 @@
 // +build darwin
 
 // Description: Darwin-specific utility functions for detecting headless systems.
+// I've never actually used these on a headless macOS system, so I'm not sure if they work.
+// But I'm slightly surer than the Windows ones.
 package util
 
 import (
@@ -18,7 +20,7 @@ import (
 //   - error: any error encountered during detection
 func IsHeadless() (bool, error) {
 	// Method 1: Check common environment variables
-	if os.Getenv("DISPLAY") == "" && os.Getenv("TMUX") == "" {
+	if os.Getenv("DISPLAY") == "" {
 		return true, nil
 	}
 
