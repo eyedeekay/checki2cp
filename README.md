@@ -1,8 +1,8 @@
 checki2cp
 =========
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/eyedeekay/checki2cp)](https://goreportcard.com/report/github.com/eyedeekay/checki2cp)
-[![Documentation](https://godoc.org/github.com/eyedeekay/checki2cp?status.svg)](http://godoc.org/github.com/eyedeekay/checki2cp)
+[![Go Report Card](https://goreportcard.com/badge/github.com/go-i2p/checki2cp)](https://goreportcard.com/report/github.com/go-i2p/checki2cp)
+[![Documentation](https://godoc.org/github.com/go-i2p/checki2cp?status.svg)](http://godoc.org/github.com/go-i2p/checki2cp)
 
 Library and terminal application which checks for the presence of a usable i2p
 router by attempting various I2P client-related probes and tests. It includes 

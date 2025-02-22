@@ -2,8 +2,8 @@
 
 GO111MODULE=on
 
-VERSION=0.33.8
-USER_GH=eyedeekay
+VERSION=0.33.9
+USER_GH=go-i2p
 
 version:
 	github-release release -s $(GITHUB_TOKEN) -u $(USER_GH) -r checki2cp -t v$(VERSION) -d "I2P Router Checking CLI utility and libraries"
