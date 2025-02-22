@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	checksam "github.com/eyedeekay/checki2cp/samcheck"
+	checksam "github.com/go-i2p/checki2cp/samcheck"
 	go_i2cp "github.com/go-i2p/go-i2cp"
 )
 

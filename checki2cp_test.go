@@ -3,7 +3,7 @@ package checki2p
 import (
 	"testing"
 
-	"github.com/eyedeekay/checki2cp/util"
+	"github.com/go-i2p/checki2cp/util"
 )
 
 func TestRouterLaunch(t *testing.T) {

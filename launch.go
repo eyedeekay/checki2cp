@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/eyedeekay/checki2cp/util"
+	"github.com/go-i2p/checki2cp/util"
 )
 
 // ConditionallyLaunchI2P If an already-installed I2P router is present, then

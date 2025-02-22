@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/eyedeekay/checki2cp/util"
+	"github.com/go-i2p/checki2cp/util"
 )
 
 // WhereIstheNetDB returns the path to whatever the first local NetDB

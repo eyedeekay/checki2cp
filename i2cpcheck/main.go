@@ -5,10 +5,10 @@ import (
 	"log"
 	"os"
 
-	checki2p "github.com/eyedeekay/checki2cp"
-	checkproxy "github.com/eyedeekay/checki2cp/proxycheck"
-	checksam "github.com/eyedeekay/checki2cp/samcheck"
-	"github.com/eyedeekay/checki2cp/util"
+	checki2p "github.com/go-i2p/checki2cp"
+	checkproxy "github.com/go-i2p/checki2cp/proxycheck"
+	checksam "github.com/go-i2p/checki2cp/samcheck"
+	"github.com/go-i2p/checki2cp/util"
 )
 
 // CheckI2PRunning returns true if I2P is running. That's all.
