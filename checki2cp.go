@@ -43,7 +43,7 @@ func CheckI2CPConnection() (bool, error) {
 		return false, err
 	}
 	if destination == nil {
-		return false, fmt.Errorf("Client connection was made but no destination could be generated.")
+		return false, fmt.Errorf("Client connection was made but no destination could be generated")
 	}
 	client.Disconnect()
 	log.Println("I2P is running.")

@@ -44,5 +44,5 @@ func FindI2PIsInstalledDefaultLocation() (string, error) {
 		log.Println("OSX i2p router detected")
 		return OSX_DEFAULT_LOCATION, nil
 	}
-	return "", fmt.Errorf("i2p router not found.")
+	return "", fmt.Errorf("i2p router not found")
 }

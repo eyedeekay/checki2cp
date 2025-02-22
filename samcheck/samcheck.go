@@ -5,6 +5,7 @@ import (
 )
 
 // CheckSAMAvailable tries a SAM connection and returns true if it succeeds.
+// If yoursam is empty, it will try to connect to the default SAM address.
 func CheckSAMAvailable(yoursam string) bool {
 	if yoursam == "" {
 		yoursam = "127.0.0.1:7656"

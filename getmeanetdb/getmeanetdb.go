@@ -9,7 +9,7 @@ import (
 	"github.com/eyedeekay/checki2cp/util"
 )
 
-// WhereIsTheNetDB returns the path to whatever the first local NetDB
+// WhereIstheNetDB returns the path to whatever the first local NetDB
 // it can find is. If it can't find one, it will output the path to an embedded NetDB
 func WhereIstheNetDB() (string, error) {
 	path, err := WhereIsTheConfigDir()
@@ -19,7 +19,7 @@ func WhereIstheNetDB() (string, error) {
 	return filepath.Join(path, "netDb"), nil
 }
 
-// WhereIstheConfigDir returns the path to the I2P configuration
+// WhereIsTheConfigDir returns the path to the I2P configuration
 // directory or the path to the one that will be created if  an
 // embedded router is run.
 func WhereIsTheConfigDir() (string, error) {
@@ -29,23 +29,21 @@ func WhereIsTheConfigDir() (string, error) {
 	}
 	switch path {
 	case util.WINDOWS_DEFAULT_LOCATION:
-		env := os.Getenv("APPDATA")
-		if env == "" {
+		var env string
+		if env = os.Getenv("APPDATA"); env == "" {
 			return "", fmt.Errorf("Could not find local appdata path")
 		} else {
-			env = os.Getenv("LOCALAPPDATA")
-			if env == "" {
+			if env = os.Getenv("LOCALAPPDATA"); env == "" {
 				return "", fmt.Errorf("Could not find local appdata path")
 			}
 		}
 		return filepath.Join(env, "I2P"), nil
 	case util.I2PD_WINDOWS_DEFAULT_LOCATION:
-		env := os.Getenv("APPDATA")
-		if env == "" {
+		var env string
+		if env = os.Getenv("APPDATA"); env == "" {
 			return "", fmt.Errorf("Could not find local appdata path")
 		} else {
-			env = os.Getenv("LOCALAPPDATA")
-			if env == "" {
+			if env = os.Getenv("LOCALAPPDATA"); env == "" {
 				return "", fmt.Errorf("Could not find local appdata path")
 			}
 		}

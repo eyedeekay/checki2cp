@@ -27,9 +27,8 @@ func ConditionallyLaunchI2P() (bool, error) {
 		}
 		if !isRunning {
 			return LaunchI2P(path)
-		} else {
-			log.Println("I2P is already running, no further action required.")
 		}
+		log.Println("I2P is already running, no further action required.")
 		return true, nil
 	}
 	return false, fmt.Errorf("I2P is not found at the default location. Please set the $I2P environment variable")

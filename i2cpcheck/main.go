@@ -30,7 +30,7 @@ func CheckI2PRunning(needI2CP, needProxy, needSAM bool) (bool, error) {
 			return true, fmt.Errorf("I2P is already running with an open SAM API")
 		}
 	}
-	return false, fmt.Errorf("I2P is not running.")
+	return false, fmt.Errorf("I2P is not running")
 }
 
 func main() {
