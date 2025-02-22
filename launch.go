@@ -20,31 +20,11 @@ func ConditionallyLaunchI2P() (bool, error) {
 	}
 	log.Println("I2P was found at a default location, continuing procedure on:", ok)
 	if ok != "" {
-		ok, err := CheckI2PIsRunning()
+		path := ok
+		isRunning, err := CheckI2PIsRunning()
 		if err == nil {
-			if !ok {
-				log.Println("Looking for an I2P router to start")
-				path, err := util.FindI2PIsInstalledDefaultLocation()
-				if err != nil {
-					return false, err
-				}
-				if strings.HasSuffix(path, "i2prouter") || strings.HasSuffix(path, "i2prouter.exe") || strings.HasSuffix(path, "i2psvc") || strings.HasSuffix(path, "i2psvc.exe") {
-					cmd := exec.Command(path, "start")
-					if err := cmd.Start(); err != nil {
-						return false, fmt.Errorf("I2P router startup failure %s", err)
-					}
-				} else if strings.HasSuffix(path, "i2pd") || strings.HasSuffix(path, "i2pd.exe") {
-					cmd := exec.Command(path, "--daemon")
-					if err := cmd.Start(); err != nil {
-						return false, fmt.Errorf("i2pd router startup failure %s", err)
-					}
-				} else {
-					cmd := exec.Command(path)
-					if err := cmd.Start(); err != nil {
-						return false, fmt.Errorf("I2P Zero router startup failure %s", err)
-					}
-				}
-				return true, nil
+			if !isRunning {
+				return LaunchI2P(path)
 			} else {
 				log.Println("I2P appears to be running, nothing to do.")
 			}
@@ -53,4 +33,29 @@ func ConditionallyLaunchI2P() (bool, error) {
 		return false, err
 	}
 	return false, fmt.Errorf("I2P is not a default location, please set $I2P environment variable")
+}
+
+// LaunchI2P starts an I2P router at the specified path.
+// This function is used by ConditionallyLaunchI2P to start the router if it is not already running.
+// it returns a boolean value indicating whether the router was started successfully or not.
+// it also returns an error if the router could not be started.
+func LaunchI2P(path string) (bool, error) {
+	log.Println("Looking for an I2P router to start")
+	if strings.HasSuffix(path, "i2prouter") || strings.HasSuffix(path, "i2prouter.exe") || strings.HasSuffix(path, "i2psvc") || strings.HasSuffix(path, "i2psvc.exe") {
+		cmd := exec.Command(path, "start")
+		if err := cmd.Start(); err != nil {
+			return false, fmt.Errorf("I2P router startup failure %s", err)
+		}
+	} else if strings.HasSuffix(path, "i2pd") || strings.HasSuffix(path, "i2pd.exe") {
+		cmd := exec.Command(path, "--daemon")
+		if err := cmd.Start(); err != nil {
+			return false, fmt.Errorf("i2pd router startup failure %s", err)
+		}
+	} else {
+		cmd := exec.Command(path)
+		if err := cmd.Start(); err != nil {
+			return false, fmt.Errorf("I2P Zero router startup failure %s", err)
+		}
+	}
+	return true, nil
 }
