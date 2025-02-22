@@ -1,8 +1,7 @@
 I2P Router Presence Detection tools
 ===================================
 
-Currently the command-line tool only does presence detection by checking for I2CP and or an I2P router installed in a
-default location.
+Currently, the command-line tool performs presence detection by checking for I2CP and I2P router installations in default locations.
 
 ## Examples:
 
@@ -13,12 +12,12 @@ default location.
 ```Go
 ok, err := CheckI2PIsInstalledDefaultLocation()
 if err != nil {
-    t.Fatal(err)
+    log.Fatal(err)
 }
 if ok {
-    t.Log("I2P is installed, successfully confirmed")
+    log.Println("I2P is installed, successfully confirmed")
 } else {
-    t.Log("I2P is in a default location, user feedback is needed")
+    log.Println("I2P is not in a default location")
 }
 ```
 
@@ -27,47 +26,47 @@ if ok {
 ```Go
 ok, err := CheckI2PIsRunning()
 if err != nil {
-    t.Fatal(err)
+    log.Fatal(err)
 }
 if ok {
-    t.Log("I2P is running, successfully confirmed I2CP")
+    log.Println("I2P is running, successfully confirmed I2CP")
 } else {
-    t.Log("I2P is not running, further testing is needed")
+    log.Println("I2P is not running")
 }
 ```
-
-#### Launching an installed I2P router from the Library
-
-TODO: Make this function work better with i2pd, find a way to integrate it into into the tests, then write the example.
 
 ### ./proxycheck
 
 #### Make a request through the default I2P HTTP Proxy to test presence
 
 ```Go
-if ProxyDotI2P() {
-    t.Log("Proxy success")
+ok, err := ProxyDotI2P()
+if err != nil {
+    log.Fatal(err)
+}
+if ok {
+    log.Println("Proxy success")
 } else {
-    t.Fatal("Proxy not found")
+    log.Fatal("Proxy not found")
 }
 ```
 
 #### Use a non-default proxy instead
 
-It honors the ```http_proxy``` environment variable, so just set it(I like to set both of these in case some system is
-weird, I suppose it's a meager measure.):
+It honors the `http_proxy` environment variable:
 
 ```Go
 if err := os.Setenv("HTTP_PROXY", "http://127.0.0.1:4444"); err != nil {
-    return false
+    log.Fatal(err)
 }
-if err := os.Setenv("http_proxy", "http://127.0.0.1:4444"); err != nil {
-    return false
+ok, err := ProxyDotI2P()
+if err != nil {
+    log.Fatal(err)
 }
-if ProxyDotI2P() {
-    t.Log("Proxy success")
+if ok {
+    log.Println("Proxy success")
 } else {
-    t.Fatal("Proxy not found")
+    log.Fatal("Proxy not found")
 }
 ```
 
@@ -76,20 +75,28 @@ if ProxyDotI2P() {
 #### Check if SAM is available on a default port
 
 ```Go
-if CheckSAMAvailable("") {
-    t.Log("SAM success")
+ok, err := CheckSAMAvailable("")
+if err != nil {
+    log.Fatal(err)
+}
+if ok {
+    log.Println("SAM success")
 } else {
-    t.Fatal("SAM not found")
+    log.Fatal("SAM not found")
 }
 ```
 
 #### Check if SAM is available on a non-default host or port
 
 ```Go
-if CheckSAMAvailable("127.0.1.1:1234") {
-    t.Log("SAM success")
+ok, err := CheckSAMAvailable("127.0.1.1:1234")
+if err != nil {
+    log.Fatal(err)
+}
+if ok {
+    log.Println("SAM success")
 } else {
-    t.Fatal("SAM not found")
+    log.Fatal("SAM not found")
 }
 ```
 
@@ -98,23 +105,23 @@ if CheckSAMAvailable("127.0.1.1:1234") {
 #### See if an I2PControl API is present on any default port
 
 ```Go
-if itworks, err := CheckI2PControlEcho("", "", "", ""); works {
-    t.Log("Proxy success")
-} else if err != nil {
-    t.Fatal(err)
+works, err := CheckI2PControlEcho("", "", "", "")
+if err != nil {
+    log.Fatal(err)
+}
+if works {
+    log.Println("I2PControl success")
 } else {
-    t.Fatal("Proxy not found")
+    log.Fatal("I2PControl not found")
 }
 ```
 
 #### Check what host:port/path corresponds to an available default I2PControl API
 
-TODO: Explain why you need this if your goal is to tolerate Java, I2Pd, and Embedded I2Pd all at once
-
 ```Go
-if host, port, path, err := GetDefaultI2PControlPath(); err != nil {
-    t.Fatal("I2PControl Not found")
-} else {
-    t.Log("I2Pcontrol found at", host, port, path)
+host, port, path, err := GetDefaultI2PControlPath()
+if err != nil {
+    log.Fatal("I2PControl Not found")
 }
-``
+log.Println("I2PControl found at", host, port, path)
+```
