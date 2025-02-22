@@ -42,7 +42,7 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-	firewallport, err := checki2p.GetFirewallPort()
+	firewallport, err := util.GetFirewallPort()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -54,7 +54,7 @@ func main() {
 	}
 	if ok {
 		log.Println("I2P is installed, successfully confirmed")
-		path, err := checki2p.FindI2PIsInstalledDefaultLocation()
+		path, err := util.FindI2PIsInstalledDefaultLocation()
 		if err != nil {
 			log.Fatal(err)
 		}

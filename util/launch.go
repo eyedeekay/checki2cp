@@ -1,6 +1,8 @@
 package util
 
-import "log"
+import (
+	"log"
+)
 
 // CheckI2PIsInstalledDefaultLocation looks in various locations for the
 // presence of an I2P router.

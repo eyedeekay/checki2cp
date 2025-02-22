@@ -6,7 +6,6 @@ import (
 	"os"
 	"path/filepath"
 
-	checki2p "github.com/eyedeekay/checki2cp"
 	"github.com/eyedeekay/checki2cp/util"
 )
 
@@ -24,7 +23,7 @@ func WhereIstheNetDB() (string, error) {
 // directory or the path to the one that will be created if  an
 // embedded router is run.
 func WhereIsTheConfigDir() (string, error) {
-	path, err := checki2p.FindI2PIsInstalledDefaultLocation()
+	path, err := util.FindI2PIsInstalledDefaultLocation()
 	if err != nil {
 		log.Println("Warning: I2P is not installed at a default location.")
 	}

@@ -43,7 +43,7 @@ func TestRouter(t *testing.T) {
 }
 
 func TestRouterPath(t *testing.T) {
-	ok, err := FindI2PIsInstalledDefaultLocation()
+	ok, err := util.FindI2PIsInstalledDefaultLocation()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -55,7 +55,7 @@ func TestRouterPath(t *testing.T) {
 }
 
 func TestFirewallPort(t *testing.T) {
-	port, err := GetFirewallPort()
+	port, err := util.GetFirewallPort()
 	if err != nil {
 		t.Fatal(err)
 	}
