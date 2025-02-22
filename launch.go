@@ -13,26 +13,26 @@ import (
 // make sure that it is started, i.e. launch the router *only* if it is not
 // already running.
 func ConditionallyLaunchI2P() (bool, error) {
-	log.Println("Checking if I2P is installed at a default location.")
+	log.Println("Checking if I2P is installed at the default location.")
 	ok, err := util.FindI2PIsInstalledDefaultLocation()
 	if err != nil {
 		return false, err
 	}
-	log.Println("I2P was found at a default location, continuing procedure on:", ok)
+	log.Println("I2P was found at the default location, proceeding with the launch procedure:", ok)
 	if ok != "" {
 		path := ok
 		isRunning, err := CheckI2PIsRunning()
-		if err == nil {
-			if !isRunning {
-				return LaunchI2P(path)
-			} else {
-				log.Println("I2P appears to be running, nothing to do.")
-			}
-			return true, nil
+		if err != nil {
+			return false, err
 		}
-		return false, err
+		if !isRunning {
+			return LaunchI2P(path)
+		} else {
+			log.Println("I2P is already running, no further action required.")
+		}
+		return true, nil
 	}
-	return false, fmt.Errorf("I2P is not a default location, please set $I2P environment variable")
+	return false, fmt.Errorf("I2P is not found at the default location. Please set the $I2P environment variable")
 }
 
 // LaunchI2P starts an I2P router at the specified path.
