@@ -6,9 +6,9 @@ import (
 	"os"
 	"os/user"
 
-	constant "github.com/eyedeekay/checki2cp/constant"
 	checksam "github.com/eyedeekay/checki2cp/samcheck"
-	go_i2cp "github.com/eyedeekay/go-i2cp"
+	"github.com/eyedeekay/checki2cp/util"
+	go_i2cp "github.com/go-i2p/go-i2cp"
 )
 
 func i2pdArgs() ([]string, error) {
@@ -42,39 +42,39 @@ func CheckI2PIsRunning() (bool, error) {
 // CheckI2PIsInstalledDefaultLocation looks in various locations for the
 // presence of an I2P router.
 func CheckI2PIsInstalledDefaultLocation() (bool, error) {
-	if constant.CheckFileExists(I2PD_WINDOWS_DEFAULT_LOCATION) {
+	if util.CheckFileExists(util.I2PD_WINDOWS_DEFAULT_LOCATION) {
 		log.Println("Windows i2pd router detected")
 		return true, nil
 	}
-	if constant.CheckFileExists(I2PD_LINUX_SYSTEM_LOCATION[0]) {
+	if util.CheckFileExists(util.I2PD_LINUX_SYSTEM_LOCATION[0]) {
 		log.Println("Linux i2pd router detected")
 		return true, nil
 	}
-	if constant.CheckFileExists(I2PD_LINUX_SYSTEM_LOCATION[1]) {
+	if util.CheckFileExists(util.I2PD_LINUX_SYSTEM_LOCATION[1]) {
 		log.Println("Linux i2pd router detected")
 		return true, nil
 	}
-	if constant.CheckFileExists(WINDOWS_DEFAULT_LOCATION) {
+	if util.CheckFileExists(util.WINDOWS_DEFAULT_LOCATION) {
 		log.Println("Windows i2p router detected")
 		return true, nil
 	}
-	if constant.CheckFileExists(WINDOWS_ZERO_NSIS_DEFAULT_LOCATION) {
+	if util.CheckFileExists(util.WINDOWS_ZERO_NSIS_DEFAULT_LOCATION) {
 		log.Println("Windows i2p zero router detected")
 		return true, nil
 	}
-	if constant.CheckFileExists(LINUX_SYSTEM_LOCATION[0]) {
+	if util.CheckFileExists(util.LINUX_SYSTEM_LOCATION[0]) {
 		log.Println("Linux i2p router detected")
 		return true, nil
 	}
-	if constant.CheckFileExists(LINUX_SYSTEM_LOCATION[1]) {
+	if util.CheckFileExists(util.LINUX_SYSTEM_LOCATION[1]) {
 		log.Println("Linux i2p router detected")
 		return true, nil
 	}
-	if constant.CheckFileExists(HOME_DIRECTORY_LOCATION) {
+	if util.CheckFileExists(util.HOME_DIRECTORY_LOCATION) {
 		log.Println("Linux i2p router detected")
 		return true, nil
 	}
-	if constant.CheckFileExists(OSX_DEFAULT_LOCATION) {
+	if util.CheckFileExists(util.OSX_DEFAULT_LOCATION) {
 		log.Println("OSX i2p router detected")
 		return true, nil
 	}
@@ -98,39 +98,39 @@ func UserFind() string {
 // presence of an I2P router and guesses the username it
 // should run under. On Windows it returns the EXE name.
 func CheckI2PUserName() (string, error) {
-	if constant.CheckFileExists(I2PD_WINDOWS_DEFAULT_LOCATION) {
+	if util.CheckFileExists(util.I2PD_WINDOWS_DEFAULT_LOCATION) {
 		log.Println("Windows i2pd router detected")
 		return "i2pd", nil
 	}
-	if constant.CheckFileExists(I2PD_LINUX_SYSTEM_LOCATION[0]) {
+	if util.CheckFileExists(util.I2PD_LINUX_SYSTEM_LOCATION[0]) {
 		log.Println("Linux i2pd router detected")
 		return "i2pd", nil
 	}
-	if constant.CheckFileExists(I2PD_LINUX_SYSTEM_LOCATION[1]) {
+	if util.CheckFileExists(util.I2PD_LINUX_SYSTEM_LOCATION[1]) {
 		log.Println("Linux i2pd router detected")
 		return "i2pd", nil
 	}
-	if constant.CheckFileExists(WINDOWS_DEFAULT_LOCATION) {
+	if util.CheckFileExists(util.WINDOWS_DEFAULT_LOCATION) {
 		log.Println("Windows i2p router detected")
 		return "i2psvc", nil
 	}
-	if constant.CheckFileExists(WINDOWS_ZERO_NSIS_DEFAULT_LOCATION) {
+	if util.CheckFileExists(util.WINDOWS_ZERO_NSIS_DEFAULT_LOCATION) {
 		log.Println("Windows i2p router detected")
 		return "i2p-zero", nil
 	}
-	if constant.CheckFileExists(LINUX_SYSTEM_LOCATION[0]) {
+	if util.CheckFileExists(util.LINUX_SYSTEM_LOCATION[0]) {
 		log.Println("Linux i2p router detected")
 		return "i2psvc", nil
 	}
-	if constant.CheckFileExists(LINUX_SYSTEM_LOCATION[1]) {
+	if util.CheckFileExists(util.LINUX_SYSTEM_LOCATION[1]) {
 		log.Println("Linux i2p router detected")
 		return "i2psvc", nil
 	}
-	if constant.CheckFileExists(HOME_DIRECTORY_LOCATION) {
+	if util.CheckFileExists(util.HOME_DIRECTORY_LOCATION) {
 		log.Println("Linux i2p router detected")
 		return UserFind(), nil
 	}
-	if constant.CheckFileExists(OSX_DEFAULT_LOCATION) {
+	if util.CheckFileExists(util.OSX_DEFAULT_LOCATION) {
 		log.Println("OSX i2p router detected")
 		return UserFind(), nil
 	}

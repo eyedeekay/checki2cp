@@ -1,7 +1,7 @@
 package checksam
 
 import (
-	"github.com/eyedeekay/sam3"
+	"github.com/go-i2p/sam3"
 )
 
 // CheckSAMAvailable tries a SAM connection and returns true if it succeeds.

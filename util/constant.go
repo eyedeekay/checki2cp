@@ -1,4 +1,4 @@
-package constant
+package util
 
 var (
 	// I2CP_HOST is the i2cp host

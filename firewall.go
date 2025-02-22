@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"log"
 	"strings"
+
+	"github.com/eyedeekay/checki2cp/util"
 )
 
 // GetFirewallPort finds the configured UDP port of your I2P router to help
@@ -12,8 +14,8 @@ import (
 // it. This function will not work on I2Pd routers yet but it should be easy
 // to add support once I get some more time to test and research it.
 func GetFirewallPort() (string, error) {
-	log.Println(I2P_ASUSER_HOME_LOCATION)
-	file, err := ioutil.ReadFile(I2P_ASUSER_HOME_LOCATION + "/router.config")
+	log.Println(util.I2P_ASUSER_HOME_LOCATION)
+	file, err := ioutil.ReadFile(util.I2P_ASUSER_HOME_LOCATION + "/router.config")
 	if err != nil {
 		return "", err
 	}

@@ -63,5 +63,4 @@ func main() {
 		log.Println("I2P is not a default location, user feedback is needed")
 		os.Exit(1)
 	}
-
 }

@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	checki2p "github.com/eyedeekay/checki2cp"
+	"github.com/eyedeekay/checki2cp/util"
 )
 
 // WhereIsTheNetDB returns the path to whatever the first local NetDB
@@ -28,7 +29,7 @@ func WhereIsTheConfigDir() (string, error) {
 		log.Println("Warning: I2P is not installed at a default location.")
 	}
 	switch path {
-	case checki2p.WINDOWS_DEFAULT_LOCATION:
+	case util.WINDOWS_DEFAULT_LOCATION:
 		env := os.Getenv("APPDATA")
 		if env == "" {
 			return "", fmt.Errorf("Could not find local appdata path")
@@ -39,7 +40,7 @@ func WhereIsTheConfigDir() (string, error) {
 			}
 		}
 		return filepath.Join(env, "I2P"), nil
-	case checki2p.I2PD_WINDOWS_DEFAULT_LOCATION:
+	case util.I2PD_WINDOWS_DEFAULT_LOCATION:
 		env := os.Getenv("APPDATA")
 		if env == "" {
 			return "", fmt.Errorf("Could not find local appdata path")
@@ -50,20 +51,20 @@ func WhereIsTheConfigDir() (string, error) {
 			}
 		}
 		return filepath.Join(env, "i2pd"), nil
-	case checki2p.LINUX_SYSTEM_LOCATION[0]:
+	case util.LINUX_SYSTEM_LOCATION[0]:
 		return "/var/lib/i2p/i2p-config/", nil
-	case checki2p.LINUX_SYSTEM_LOCATION[1]:
+	case util.LINUX_SYSTEM_LOCATION[1]:
 		return "/var/lib/i2p/i2p-config/", nil
-	case checki2p.I2PD_LINUX_SYSTEM_LOCATION[0]:
+	case util.I2PD_LINUX_SYSTEM_LOCATION[0]:
 		return "/var/lib/i2pd/", nil
-	case checki2p.I2PD_LINUX_SYSTEM_LOCATION[1]:
+	case util.I2PD_LINUX_SYSTEM_LOCATION[1]:
 		return "/var/lib/i2pd/", nil
-	case checki2p.I2P_ASUSER_HOME_LOCATION:
-		return checki2p.I2P_ASUSER_HOME_LOCATION, nil
-	case checki2p.HOME_DIRECTORY_LOCATION:
-		return checki2p.I2P_ASUSER_HOME_LOCATION, nil
-	case checki2p.OSX_DEFAULT_LOCATION:
-		return checki2p.I2P_ASUSER_HOME_LOCATION, nil
+	case util.I2P_ASUSER_HOME_LOCATION:
+		return util.I2P_ASUSER_HOME_LOCATION, nil
+	case util.HOME_DIRECTORY_LOCATION:
+		return util.I2P_ASUSER_HOME_LOCATION, nil
+	case util.OSX_DEFAULT_LOCATION:
+		return util.I2P_ASUSER_HOME_LOCATION, nil
 	}
 	return "", fmt.Errorf("Could not find local I2P configuration directory")
 }

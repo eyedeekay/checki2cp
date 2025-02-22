@@ -1,7 +1,9 @@
 package checki2pcontrol
 
 import (
-	"github.com/eyedeekay/go-i2pcontrol"
+	"log"
+
+	"github.com/go-i2p/go-i2pcontrol"
 )
 
 // CheckI2PControlEcho attempts a connection and an echo command on it.
@@ -14,9 +16,6 @@ func CheckI2PControlEcho(host, port, password, path string) (bool, error) {
 	if port == "" {
 		port = "7650"
 	}
-	if password == "" {
-		password = "itoopie"
-	}
 	i2pcontrol.Initialize(host, port, path)
 	var finalError error
 	if _, err := i2pcontrol.Authenticate(password); err != nil {
@@ -28,9 +27,9 @@ func CheckI2PControlEcho(host, port, password, path string) (bool, error) {
 	if finalError == nil {
 		return true, nil
 	}
+	log.Printf("Error: %v", finalError)
 	finalError = nil
 	port = "7657"
-	password = "itoopie"
 	path = "jsonrpc"
 	i2pcontrol.Initialize(host, port, path)
 	if _, err := i2pcontrol.Authenticate(password); err != nil {
@@ -48,14 +47,20 @@ func CheckI2PControlEcho(host, port, password, path string) (bool, error) {
 // GetDefaultI2PControlPath probes default locations for the I2PControl API, returning
 // either a working I2PControl API and no error, or the defaults of the embedded router
 // and an error
-func GetDefaultI2PControlPath() (string, string, string, error) {
+func GetDefaultI2PControlPath(password ...string) (string, string, string, error) {
 	host := "127.0.0.1"
 	port := "7650"
-	password := "itoopie"
+	pass := ""
+	if len(password) > 0 {
+		pass = password[0]
+	} else {
+		pass = "itoopie"
+	}
+	// use the provided password parameter
 	path := ""
 	i2pcontrol.Initialize(host, port, path)
 	var finalError error
-	if _, err := i2pcontrol.Authenticate(password); err != nil {
+	if _, err := i2pcontrol.Authenticate(pass); err != nil {
 		finalError = err
 	}
 	if _, err := i2pcontrol.Echo("Hello I2PControl"); err != nil {
@@ -66,17 +71,13 @@ func GetDefaultI2PControlPath() (string, string, string, error) {
 	}
 	finalError = nil
 	port = "7657"
-	password = "itoopie"
 	path = "jsonrpc"
 	i2pcontrol.Initialize(host, port, path)
-	if _, err := i2pcontrol.Authenticate(password); err != nil {
+	if _, err := i2pcontrol.Authenticate(pass); err != nil {
 		finalError = err
 	}
 	if _, err := i2pcontrol.Echo("Hello I2PControl"); err != nil {
 		finalError = err
 	}
-	if finalError == nil {
-		return host, port, path, nil
-	}
-	return "127.0.0.1", "4450", "", nil
+	return host, port, path, finalError
 }

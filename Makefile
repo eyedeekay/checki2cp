@@ -30,4 +30,4 @@ clean:
 	rm -f i2pccheck/i2cpcheck
 
 fmt:
-	find . -name '*.go' -exec gofmt -w -s {} \;
+	find . -name '*.go' -exec gofumpt -extra -w -s {} \;
