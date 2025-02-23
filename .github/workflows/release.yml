@@ -1,0 +1,39 @@
+name: CI/CD for i2cpcheck
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags (e.g., v1.0.0)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.17'  # Specify the Go version you want to use
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Build i2cpcheck
+        run: |
+          make build
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            I2P Router Checking CLI utility and libraries
+          files: |
+            ./i2cpcheck/i2cpcheck
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
