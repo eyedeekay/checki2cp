@@ -16,7 +16,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.17'  # Specify the Go version you want to use
+          go-version: '1.23'  # Specify the Go version you want to use
 
       - name: Install dependencies
         run: go mod tidy

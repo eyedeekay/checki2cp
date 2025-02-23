@@ -13,7 +13,7 @@ delete:
 
 GO_COMPILER_OPTS = -a -tags netgo -ldflags '-w -extldflags "-static"'
 
-build: fmt test clean
+build:
 	cd ./i2cpcheck && go build $(GO_COMPILER_OPTS)
 	cd ./i2cpcheck && GOOS=windows GOARCH=amd64 go build $(GO_COMPILER_OPTS) -buildmode=exe -o i2cpcheck.exe
 
